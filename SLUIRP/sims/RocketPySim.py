@@ -8,7 +8,7 @@ import math
 import matplotlib.pyplot as plt
 import csv
 from zoneinfo import ZoneInfo
-from plotting.sim_plots  import param_graph, prof_graph
+from SLUIRP.plotting.sim_plots  import param_graph, prof_graph
 
 FT_TO_M = 3.28084
 IN_TO_M = 1 / 39.37
