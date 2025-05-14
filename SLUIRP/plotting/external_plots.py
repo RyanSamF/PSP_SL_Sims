@@ -12,6 +12,18 @@ IN_TO_M = 1 / 39.37
 LBS_TO_KG = 0.4536 
 
 def compare_graph(params1, params2, ws, angle, program1, program2):
+    ################################################################################
+    # Makes a graph comparing two sets of vertical movement data
+    # INPUTS:
+    # params1 - [time, altitude, velocity, acceleration] of program 1 in that order
+    # params2 - [time, altitude, velocity, acceleration] of program 2 in that order
+    # ws - wind speed used for simulation for graph title
+    # angle - angle used for simulation for graph title
+    # program1 - name of program 1 for graph title
+    # program2 - name of program 2 for graph title
+    # OUTPUTS:
+    # None - displays plot and saves it
+    ################################################################################
     time1 = params1[0]
     alt1 = params1[1]
     vel1 = params1[2]
@@ -36,6 +48,7 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     lns = lns1+lns2+lns3+lns4+lns5+lns6
     labs = [l.get_label() for l in lns]
     ax1.legend(lns, labs, loc=1)
+    # Makes both graphs have the same sets of axes
     ax1_ylims = ax1.axes.get_ylim()          
     ax1_yratio = ax1_ylims[0] / ax1_ylims[1]  
 
@@ -54,7 +67,19 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     plt.show()
     plt.savefig('Plots/' + "compare" + program1 + program2 + " Parameters.png", format='png')
 
+
 def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
+    #########################################################################################
+    # simulates a flight and graphs it in comparison to real flight data
+    # INPUTS:
+    # vdf_data - real flight data [time, alt, velocity, acceleration] in meters
+    # env - enviornment used for simulation
+    # aoa - angle of attack used for simulation
+    # flight_name - name of flight for graphing
+    # vehicle - rocketpy rocket instance used for simulation
+    # OUTPUTS:
+    # None - saves plot to plots folder
+    #########################################################################################
     testFlight   = rp.Flight(
                 rocket = vehicle, environment = env, rail_length = 3.6576, inclination = 90 - aoa  , heading = 270)
     time = testFlight.time
@@ -62,6 +87,7 @@ def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
     accel = testFlight.az(time) * FT_TO_M
     vel = testFlight.vz(time) * FT_TO_M
 
+    #Converts meters to feet
     vdf_data [1] *= FT_TO_M
     vdf_data[2] *= FT_TO_M
     vdf_data[3] *= FT_TO_M
@@ -71,6 +97,14 @@ def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
 
 
 def graph_OR():
+    #######################################################################
+    # Graphs openrocket data from saved csv files under
+    # CSV_files folder for several different launch conditions
+    # INPUTS:
+    # None - files with the below names defined as y must be in CSV_files
+    # OUTPUTS
+    # None - plots files to Plots folder
+    #######################################################################
     y = [['0','5'],['5','5'],['10','7.5'], ['15','7.5'], ['20','10']]
     for x in y:
         df = pandas.read_csv('CSV_files/' + x[0] + x[1].replace('.', '')+'.csv', index_col=None)
@@ -81,6 +115,14 @@ def graph_OR():
         param_graph(time, alt, vel, accel, x[0], x[1], "OpenRocket")
 
 def graph_thrust(thrusturl):
+    ##################################################
+    # Graphs thrust curve from a CSV file
+    # INPUTS:
+    # thrusturl - filepath of the thrust curve csv file
+    # OUTPUTS:
+    # None - plots thrust.png to plots folder
+    ##################################################
+
     df = pandas.read_csv(thrusturl, index_col=None)
     time = np.array(df[df.columns[0]].tolist())
     thrust = np.array(df[df.columns[1]].tolist())
