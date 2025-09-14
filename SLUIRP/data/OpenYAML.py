@@ -19,7 +19,6 @@ def readYaml (filename):
     # Filename - filepath of the YAML vehicle file within the directory
     #OUTPUTS:
     # vehicle - RocketPy rocket class with vehicle data from the loaded YAML file
-    # m_heav - mass of the heaviest section in lbs
     #############################################################################
     
     #Opens YAML file and seperates dictionary of dictionaries into individual dicts and variables

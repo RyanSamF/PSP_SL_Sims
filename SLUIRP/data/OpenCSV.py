@@ -16,4 +16,9 @@ def get_standard_data(csv_file):
     alt = np.array(df1[df1.columns[1]].tolist())
     vel = np.array(df1[df1.columns[2]].tolist())
     accel = np.array(df1[df1.columns[3]].tolist())
-    return([time, alt, vel, accel])
+    try:
+        temp = np.array(df1[df1.columns[4]].tolist())
+        pressure = np.array(df1[df1.columns[5]].tolist())
+        return([time, alt, vel, accel, temp, pressure])
+    except:
+        return([time, alt, vel, accel])

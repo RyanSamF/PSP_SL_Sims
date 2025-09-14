@@ -3,6 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def prof_graph(drift, alt, plt_title):
+    ################################################################################
+    # Graphs horizontal position against vertical position, creating a profile of the flight
+    # INPUTS:
+    # drift - horizontal position/drift distance in feet (array)
+    # alt - altitude in feet (array)
+    # plt_title - Title of plot (usually x mph y Degrees RocketPy )
+    # OUTPUTS:
+    # None - displays plot and saves it
+    ################################################################################
     fig, ax1 = plt.subplots()
     ax1.set_ylabel("Altitude (ft)")
     ax1.set_xlabel('Drift Distance (ft)')
@@ -14,6 +23,19 @@ def prof_graph(drift, alt, plt_title):
     plt.savefig('Plots/' + plt_title + " Profile.png", format='png')
 
 def param_graph(time, alt, vel, accel, ws, angle, program):
+    ################################################################################
+    # Graphs horizontal position against vertical position, creating a profile of the flight
+    # INPUTS:
+    # time - time array
+    # alt - altitude in feet (array)
+    # vel - vertical velocity of flight (array)
+    # accel - vertical acceleration of flight (array)
+    # ws - wind speed of flight in mph
+    # angle - angle of flight in degrees
+    # program - Program used to create data (usually "RocketPy" or "OpenRocket")
+    # OUTPUTS:
+    # plot_name - name of plot
+    ################################################################################
     fig, ax1 = plt.subplots()
     plt.grid()
     ax1.set_ylabel("Altitude (ft)")
