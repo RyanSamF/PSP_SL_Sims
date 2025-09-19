@@ -2,7 +2,7 @@ from matplotlib import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-def prof_graph(drift, alt, plt_title):
+def prof_graph(drift, alt, ws, angle, program):
     ################################################################################
     # Graphs horizontal position against vertical position, creating a profile of the flight
     # INPUTS:
@@ -16,11 +16,12 @@ def prof_graph(drift, alt, plt_title):
     ax1.set_ylabel("Altitude (ft)")
     ax1.set_xlabel('Drift Distance (ft)')
     lns3 = ax1.plot(drift, alt, color=(0, 0, 1))
-    plt.suptitle("Flight Profile",
+    plt.suptitle(program + " Flight Profile",
         fontweight = 'bold')
-    plt.title(plt_title)
+    plot_name = str(ws)+" mph " + str(angle) + " Degrees"
+    plt.title(plot_name)
     plt.grid()
-    plt.savefig('Plots/' + plt_title + " Profile.png", format='png')
+    plt.savefig('Plots/' + plot_name + program + " Profile.png", format='png')
 
 def param_graph(time, alt, vel, accel, ws, angle, program):
     ################################################################################
@@ -53,7 +54,7 @@ def param_graph(time, alt, vel, accel, ws, angle, program):
 
     ax2_ylims = ax2.axes.get_ylim()           
     ax2_yratio = ax2_ylims[0] / ax2_ylims[1] 
-
+#COMMENT THIS
     if ax1_yratio < ax2_yratio: 
         ax2.set_ylim(bottom = ax2_ylims[1]*ax1_yratio)
     else:

@@ -5,7 +5,7 @@ import numpy as np
 import pandas
 import matplotlib.pyplot as plt
 from zoneinfo import ZoneInfo
-import SLUIRP.plotting.sim_plots
+from SLUIRP.plotting.sim_plots import param_graph
 
 FT_TO_M = 3.28084
 IN_TO_M = 1 / 39.37

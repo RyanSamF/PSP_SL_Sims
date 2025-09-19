@@ -57,21 +57,21 @@ def readYaml (filename):
     rp.Rocket.main_deploy = None #m_heav is mass of heaviest section, main_deploy is main parachute deploy height
     print(type(rp.Rocket))
     vehicle = rp.Rocket(
-    radius = rocket_data["radius"] * IN_TO_M, #airframe radius (in -> meters)
-    mass = (rocket_data["mass"] * LBS_TO_KG), #Rocket mass WITHOUT motor (lbs -> kg)
-    inertia = np.array(rocket_data["inertia"]) * LBS_TO_KG / FT_TO_M**2, #inertia vector (lbs/ft^2 -> kg/m^2)
-    #First two are longitudinal moment of inertia, last is rotational)
-    power_off_drag = dragurl, #Coefficient of drag when power is off vs mach number
-    power_on_drag = dragurl, #Coefficient of drag when power is on vs mach number
-    coordinate_system_orientation = "nose_to_tail", #defines position 0 = end of nose
-    center_of_mass_without_motor = rocket_data["COM"] * IN_TO_M #Center of mass WITHOUT motor (in -> meters)  
+        radius = rocket_data["radius"] * IN_TO_M, #airframe radius (in -> meters)
+        mass = (rocket_data["mass"] * LBS_TO_KG), #Rocket mass WITHOUT motor (lbs -> kg)
+        inertia = np.array(rocket_data["inertia"]) * LBS_TO_KG / FT_TO_M**2, #inertia vector (lbs/ft^2 -> kg/m^2)
+        #First two are longitudinal moment of inertia, last is rotational)
+        power_off_drag = dragurl, #Coefficient of drag when power is off vs mach number
+        power_on_drag = dragurl, #Coefficient of drag when power is on vs mach number
+        coordinate_system_orientation = "nose_to_tail", #defines position 0 = end of nose
+        center_of_mass_without_motor = rocket_data["COM"] * IN_TO_M #Center of mass WITHOUT motor (in -> meters)  
     )
     vehicle.add_motor(engine, rocket_data["length"] * IN_TO_M) #position of motor in rocket
 
     #adds nose cone to vehicle
     nose_cone = vehicle.add_nose(
         length = nose_data["length"] * IN_TO_M, #Length of nose cone (in -> meters)
-        kind = "von karman", #Nose type, IF EVER NOT VON KARMAN CHANGE THIS
+        kind = nose_data["type"], #Nose type, IF EVER NOT VON KARMAN CHANGE THIS
         position = 0 #defines nose cone at end of nose cone (nose to tail orientation)
     )
     

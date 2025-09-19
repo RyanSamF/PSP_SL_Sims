@@ -107,13 +107,12 @@ def multi_sim(angles, speeds, vehicle):
         #Determines velocity and time of main deployment
             if vel_main_deploy == 0 and alt[vIndex] <= vehicle.main_deploy * 3.281 + 10 and vel[vIndex] < -1:
                 vel_main_deploy = vel[vIndex]
-                print("Under Drogue" + str(vel_main_deploy))
                 time_main_deploy = time[vIndex]
                 #print("alt:" + str(alt[-1]))
         plot_name = param_graph(time, alt, vel, accel, speeds[i], angles[i], "RocketPy")
         
         #Makes profile graphs for flight, altitude vs drift distance
-        prof_graph(drift, alt, plot_name + " RocketPy")
+        prof_graph(drift, alt, speeds[i], angles[i], "RocketPy")
 
         final_vel.append(vel[-1])
         stability.append(testFlight.stability_margin(testFlight.out_of_rail_time))
@@ -121,7 +120,6 @@ def multi_sim(angles, speeds, vehicle):
         ascent_time.append(testFlight.apogee_time)
         apogee.append((testFlight.apogee - env.elevation) * FT_TO_M)
         distance.append(abs(drift[-1] + (FT_TO_M * testFlight.x(testFlight.apogee_time))))
-        print(drift[-1])
         run_params.append(plot_name)
         max_mach.append(max(mach_num))
         max_vel.append(max(vel))
@@ -131,14 +129,9 @@ def multi_sim(angles, speeds, vehicle):
         under_drogue.append(time_main_deploy + testFlight.apogee_time)
         #print("after" + str(time_main_deploy))
         under_main.append(time[-1] - time_main_deploy)
-        print(max(drift) + FT_TO_M * testFlight.x(testFlight.apogee_time))
         #print("Velocity at Main Deployment:" + str(vel_main_deploy))
         #print(testFlight.out_of_rail_velocity * FT_TO_M)
         #testFlight.plots.trajectory_3d()
-    print(stability)
-    print(vehicle.cp_position(0) / IN_TO_M)
-    print(vehicle.center_of_mass(0) / IN_TO_M)    
-    print(vel[-1])
     end_results = [run_params, 
         final_vel,
         descent_time,
@@ -155,7 +148,7 @@ def multi_sim(angles, speeds, vehicle):
     #print([i for i in end_results])
     #print(descent_time)
     #print(testFlight.parachute_events)
-    
+    print(apogee)
 
     """PROBABLY WANT TO MAKE THIS IT'S OWN FUNCTION AT SOME POINT"""
     # Specify the file name

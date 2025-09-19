@@ -24,10 +24,10 @@ def main():
     speeds = [0, 5, 10, 15, 20]
 
 
-    wolf = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/final_config.yaml")
+    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/2026_Proposal_8lb.yaml")
     #compare_sim_real(vdf_data, env, 3, "VDF Flight")
     #graph_thrust()
-    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, wolf)
+    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, vehicle)
     #graph_OR()
     #testFlight.plots.trajectory_3d()
     #testFlight.plots.all()
