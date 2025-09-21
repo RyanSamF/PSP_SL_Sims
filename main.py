@@ -24,10 +24,10 @@ def main():
     speeds = [0, 5, 10, 15, 20]
 
 
-    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/2026_Proposal_8lb.yaml")
+    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/2026_Proposal_12lb.yaml")
     #compare_sim_real(vdf_data, env, 3, "VDF Flight")
     #graph_thrust()
-    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, vehicle)
+    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, vehicle, "for 12 lb Design")
     #graph_OR()
     #testFlight.plots.trajectory_3d()
     #testFlight.plots.all()

@@ -2,7 +2,7 @@ from matplotlib import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-def prof_graph(drift, alt, ws, angle, program):
+def prof_graph(drift, alt, ws, angle, program, more = None):
     ################################################################################
     # Graphs horizontal position against vertical position, creating a profile of the flight
     # INPUTS:
@@ -16,14 +16,14 @@ def prof_graph(drift, alt, ws, angle, program):
     ax1.set_ylabel("Altitude (ft)")
     ax1.set_xlabel('Drift Distance (ft)')
     lns3 = ax1.plot(drift, alt, color=(0, 0, 1))
-    plt.suptitle(program + " Flight Profile",
+    plt.suptitle(program + " Flight Profile " + more if more != None else "",
         fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.title(plot_name)
     plt.grid()
     plt.savefig('Plots/' + plot_name + program + " Profile.png", format='png')
 
-def param_graph(time, alt, vel, accel, ws, angle, program):
+def param_graph(time, alt, vel, accel, ws, angle, program, more = None):
     ################################################################################
     # Graphs horizontal position against vertical position, creating a profile of the flight
     # INPUTS:
@@ -59,7 +59,7 @@ def param_graph(time, alt, vel, accel, ws, angle, program):
         ax2.set_ylim(bottom = ax2_ylims[1]*ax1_yratio)
     else:
         ax1.set_ylim(bottom = ax1_ylims[1]*ax2_yratio)
-    plt.suptitle(program + " Flight Parameters vs. Time",
+    plt.suptitle(program + " Flight Parameters vs. Time " + more if more != None else "" ,
                 fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.xlim((0, time[-1]))
