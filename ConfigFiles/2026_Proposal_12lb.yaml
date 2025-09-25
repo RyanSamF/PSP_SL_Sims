@@ -21,10 +21,10 @@ rocket:
   booster: 12.34  #mass of booster section in lbs
   radius: 2.575 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
-  mass: 36.2 #mass in lbs
-  inertia: [226.91, 226.91, 1.19] #moment of inertia in lbs*ft^2
-  COM: 46.14 #center of mass from nose without motor in inches
-  length: 98 #length of rocket in inches
+  mass: 35.9 #mass in lbs
+  inertia: [231.59, 231.59, 1.18] #moment of inertia in lbs*ft^2
+  COM: 45.78 #center of mass from nose without motor in inches
+  length: 99 #length of rocket in inches
 
 nose_cone:
   length: 11 #length of nose cone in inches
@@ -33,11 +33,11 @@ nose_cone:
   
 fins:
   n: 3 #number of fins
-  root_chord: 6 #root chord in inches
+  root_chord: 3 #root chord in inches
   tip_chord: 3 #length of tip chord in inches
-  position: 91 #position of top of fins in inches
-  span: 3.967 #span of fin in inches
-  sweep: 3 #sweep length of fins in inches  
+  position: 95 #position of top of fins in inches
+  span: 4.5 #span of fin in inches
+  sweep: 0 #sweep length of fins in inches  
 
 parachutes:
   drogue_present: 1 #1 if drogue is present 0 if not
@@ -46,4 +46,4 @@ parachutes:
   drogue_diameter: 20  #diameter of drogue parachute in inches
   main_cd: 1.6 #coefficient of drag of main parachute 
   main_diameter: 120 #diameter of main parachute in inches
-  main_trigger: 540 #trigger height for main parachute in ft
+  main_trigger: 700 #trigger height for main parachute in ft
