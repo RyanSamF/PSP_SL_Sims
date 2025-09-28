@@ -1,0 +1,54 @@
+def foobar(desired_altitude, cur_alt, cur_vel, )
+    
+"""
+Functions needed:
+
+midair_sim()
+Simulate midair launch with starting velocity and altitude
+    -INPUTS: rp.rocket class (vehicle data)
+            Starting velocity/mach
+            starting altitude
+            Starting angle
+    -OUTPUT:
+        Apogee
+
+    
+
+CD_curve_estimate
+Estimate equation of Cd curve vs mach
+    INPUT: 
+    Mach vs CD csv file
+    Mach number
+    CD value
+
+    OUTPUT: 
+    Mach number vs CD csv file with linearized data from starting data points
+
+alt_optimize()
+3) Get Cd value at starting mach number and starting altitude to reach desired altitude
+    INPUT:
+        Starting mach number
+        Rocket data
+        Starting altitude
+        Starting angle
+        Desired altitude
+
+        Function 3 output
+    OUTPUT: CD value to reach desired altitude
+
+    1) run function 1 with input CD value (probably 0% deployment)
+    2) Look at output of function 1 and adjust CD value input based on difference in height 
+    3) Repeat 1 and 2 until output altitude = desired altitude (while loop)
+
+create_airbrakes_table()
+4) use function 3 to create lookup table of needed Cd values given mach number, current altitude, desired altitude
+    INPUT:
+    Array of Input velocities/mach
+    Array of input heights
+    Array of input angles
+    Desired height
+
+
+
+
+"""
