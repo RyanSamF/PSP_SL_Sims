@@ -69,27 +69,27 @@ def multi_sim(angles, speeds, vehicle, name = None):
     ###################################################################################
 
     speeds_ms = [x * 0.44704 for x in speeds]
-    env_arr = []
+    env_arr = [None] * len(speeds)
     #time =  datetime.datetime(2025, 2, 23, 13, 30, 0, 0, tzinfo=ZoneInfo("America/Indianapolis"))
-    for wind_speed in speeds_ms:
-        env = get_ST_env(wind_speed)
-        env_arr.append(env)
+    for i in range(len(speeds_ms)):
+        env = get_ST_env(speeds_ms[i])
+        env_arr[i] = (env)
 
     #Data labels for final output csv file, all final data is appended to these lists
-    final_vel = ["Final Velocity (ft/s)"]
-    stability = ["Stability off rod (calibers)"]
-    descent_time = ["Descent Time (seconds)"]
-    ascent_time = ["Ascent Time (seconds)"]
-    apogee = ["Apogee (ft)"]
-    distance = ["Drift Distance (ft)"]
-    max_mach = ["Max Mach Number"]
-    max_vel = ["Max Velocity (ft/s)"]
-    max_accel = ["Max Acceleration (ft/s)"]
-    max_ke = ["Max Kinetic Energy (ft-lbf)"]
-    under_drogue = ["Time Under Drogue (sec)"]
-    under_main = ["Time Under Main (sec)"]
-    vel_at_main = ["Velocity at Main Deployment (ft/s)"]
-    run_params = [""]
+    final_vel = ["Final Velocity (ft/s)"] + [None] * len(speeds)
+    stability = ["Stability off rod (calibers)"] + [None] * len(speeds)
+    descent_time = ["Descent Time (seconds)"] + [None] * len(speeds)
+    ascent_time = ["Ascent Time (seconds)"] + [None] * len(speeds)
+    apogee = ["Apogee (ft)"] + [None] * len(speeds)
+    distance = ["Drift Distance (ft)"] + [None] * len(speeds)
+    max_mach = ["Max Mach Number"] + [None] * len(speeds)
+    max_vel = ["Max Velocity (ft/s)"] + [None] * len(speeds)
+    max_accel = ["Max Acceleration (ft/s)"] + [None] * len(speeds)
+    max_ke = ["Max Kinetic Energy (ft-lbf)"] + [None] * len(speeds)
+    under_drogue = ["Time Under Drogue (sec)"] + [None] * len(speeds)
+    under_main = ["Time Under Main (sec)"] + [None] * len(speeds)
+    vel_at_main = ["Velocity at Main Deployment (ft/s)"] + [None] * len(speeds)
+    run_params = [""] + [None] * len(speeds)
 
     #simulates launch and records above data for each pair of wind speeds and angles 
     for i in range(0,len(angles)):
@@ -114,21 +114,21 @@ def multi_sim(angles, speeds, vehicle, name = None):
         #Makes profile graphs for flight, altitude vs drift distance
         prof_graph(drift, alt, speeds[i], angles[i], "RocketPy", name)
 
-        final_vel.append(vel[-1])
-        stability.append(testFlight.stability_margin(testFlight.out_of_rail_time))
-        descent_time.append(time[-1] - testFlight.apogee_time)
-        ascent_time.append(testFlight.apogee_time)
-        apogee.append((testFlight.apogee - env.elevation) * FT_TO_M)
-        distance.append(abs(drift[-1] + (FT_TO_M * testFlight.x(testFlight.apogee_time))))
-        run_params.append(plot_name)
-        max_mach.append(max(mach_num))
-        max_vel.append(max(vel))
-        max_accel.append(max(accel))
-        max_ke.append(0.5 * vel[-1] ** 2 * vehicle.m_heav / 32.17)
-        vel_at_main.append(vel_main_deploy)
-        under_drogue.append(time_main_deploy + testFlight.apogee_time)
+        final_vel[i]= vel[-1]
+        stability[i]= testFlight.stability_margin(testFlight.out_of_rail_time)
+        descent_time[i]= time[-1] - testFlight.apogee_time
+        ascent_time[i]= testFlight.apogee_time
+        apogee[i]= (testFlight.apogee - env.elevation) * FT_TO_M
+        distance[i]= abs(drift[-1] + (FT_TO_M * testFlight.x(testFlight.apogee_time)))
+        run_params[i]= plot_name
+        max_mach[i]= max(mach_num)
+        max_vel[i]= max(vel)
+        max_accel[i]= max(accel)
+        max_ke[i]= 0.5 * vel[-1] ** 2 * vehicle.m_heav / 32.17
+        vel_at_main[i]= vel_main_deploy
+        under_drogue[i]= time_main_deploy + testFlight.apogee_time
         #print("after" + str(time_main_deploy))
-        under_main.append(time[-1] - time_main_deploy)
+        under_main[i]=(time[-1] - time_main_deploy)
         #print("Velocity at Main Deployment:" + str(vel_main_deploy))
         #print(testFlight.out_of_rail_velocity * FT_TO_M)
         #testFlight.plots.trajectory_3d()

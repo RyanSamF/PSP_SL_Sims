@@ -13,21 +13,21 @@ def midair_sim(vehicle, init_vel, init_alt, init_angle):
     # OUTPUTS:
     # apogee - apogee in meters
     ##################################################
-    
+    #sets up environment
     env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=187)
-        #URL = "http://weather.uwyo.edu/cgi-bin/sound   ing?region=naconf&TYPE=TEXT%3ALIST&YEAR=2024&MONTH=04&FROM=1300&TO=1312&STNM=72230"
-    env.set_date((2024, 4, 13, 6))
-    #Creates environment using standard atmosphere, and defining wind at 0 and 5000 meters as wind speed
+    env.set_date((2026, 4, 13, 6))
+    #Creates environment using standard atmosphere and zero wind speed
     env.set_atmospheric_model(
         type="custom_atmosphere",
         wind_u = [(0,0)], #wind in one direction (m/s)
         wind_v = [(0,0)], #wind in perpendicular directon (m/s)
         pressure=None, #no change from standard atmosphere in pressure
         temperature=None) #no change from standard atmosphere in temperature
+    
     init_angle = math.radians(init_angle)
-    [q_0, q_1, q_2, q_3] = rp.tools.euler313_to_quaternions(init_angle, 0, 0)
+    [q_0, q_1, q_2, q_3] = rp.tools.euler313_to_quaternions(init_angle, 0, 0) #converts pitch into quaternion
     vehicle.motor.propellant_mass = 0
-    vehicle.motor.thrust_source = "CSV_files/zero.csv"
+    vehicle.motor.thrust_source = "CSV_files/zero.csv" #this is literally just a csv file with two zeros in it
     testFlight   = rp.Flight(
             rocket = vehicle,
             environment = env, 
