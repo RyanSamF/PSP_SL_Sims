@@ -18,17 +18,18 @@ import SLUIRP.sims
 import SLUIRP.sims.RocketPySim
 import SLUIRP.plotting
 import SLUIRP.in_dev.airbrakes_system.midair_sims
+import dill
+import time
 
 def main():
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
 
-
-    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/2026_Proposal_12lb.yaml")
+    #vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/2026_Proposal_12lb.yaml")
     #compare_sim_real(vdf_data, env, 3, "VDF Flight")
     #graph_thrust()
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim(vehicle, 50, 300, 50))
-    SLUIRP.sims.RocketPySim.multi_sim_1(angles, speeds, vehicle, "for 12 lb Design")
+    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, "ConfigFiles/2026_Proposal_12lb.yaml", "for 12 lb Design")
     #graph_OR()
     #testFlight.plots.trajectory_3d()
     #testFlight.plots.aerodynamic_forces()
