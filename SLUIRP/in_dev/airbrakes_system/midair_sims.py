@@ -1,18 +1,26 @@
 import rocketpy as rp
 import math 
+import SLUIRP.data.OpenYAML
 
-def midair_sim(vehicle, init_vel, init_alt, init_angle):
+
+def midair_sim(vehicle_data, init_vel, init_alt, init_angle, drag_data = None):
     ##################################################
     # Simulates midair launch given velocity and altitude
     # and returns apogee
     # INPUTS:
-    # vehicle - vehicle being simulated
+    # vehicle - name of csv file of vehicle being simulated
     # init_vel - initial velocity of vehicle (m/s)
     # init_alt - initial height of vehicle (m)
     # init_angle - initial angle from vertical of vehicle (degrees)
+    # drag_data - (optional) 
     # OUTPUTS:
     # apogee - apogee in meters
     ##################################################
+    
+    vehicle = SLUIRP.data.OpenYAML.readYaml(vehicle_data)
+    if drag_data is not None:
+        vehicle.power_off_drag = rp.Function(drag_data)
+        vehicle.power_on_drag = rp.Function(drag_data)
     #sets up environment
     env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=187)
     env.set_date((2026, 4, 13, 6))

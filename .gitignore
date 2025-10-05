@@ -60,7 +60,12 @@ codegen/
 # ``shelve``, ``marshal``, ``anydbm``, & ``bsddb``
 # (among others).
 
+# Plots
+*.png
+
 # Auto detect text files and perform LF normalization
 * text=auto
 
+
+# Output Array
 output.csv
