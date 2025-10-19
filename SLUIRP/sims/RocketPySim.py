@@ -94,7 +94,7 @@ def multi_sim(angles, speeds, vehicle, name = None):
     vel_at_main = "Velocity at Main Deployment (ft/s)" 
     run_params = ""
     end_results = [None]*(len(angles) + 1)
-    end_results[0] = [run_params, 
+    labels = [run_params, 
             final_vel,
             descent_time,
             ascent_time,
@@ -109,6 +109,7 @@ def multi_sim(angles, speeds, vehicle, name = None):
             vel_at_main]
     #simulates launch and records above data for each pair of wind speeds and angles 
     end_results = joblib.Parallel(n_jobs=-1)(joblib.delayed(single_sim)(angles[i], speeds[i], vehicle, name, i) for i in range(len(speeds)))
+    end_results.insert(0, labels)
     end_results = [list(row) for row in zip(*end_results)]
     """PROBABLY WANT TO MAKE THIS IT'S OWN FUNCTION AT SOME POINT"""
     # Specify the file name

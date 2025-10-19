@@ -80,7 +80,7 @@ def readYaml (filename):
         n = fins_data["n"], #number of fins
         root_chord = fins_data["root_chord"] * IN_TO_M, #root chord length (in -> meters)
         tip_chord = fins_data["tip_chord"] * IN_TO_M, #tip chord length (in -> meters)
-        position = (rocket_data["length"] - fins_data["root_chord"]) * IN_TO_M, #position (in -> meters)
+        position = (rocket_data["length"] - fins_data["root_chord"] - fins_data["offset"]) * IN_TO_M, #position (in -> meters)
         span = fins_data["span"] * IN_TO_M, #span (in -> meters)
         sweep_length = fins_data["sweep"] * IN_TO_M #Sweep length (in -> meters),
         #   airfoil = (airfoilLift, "degrees") #OPTIONAL ADD AIRFOIL TO FINS ((WIP))
