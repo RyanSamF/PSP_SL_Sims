@@ -16,7 +16,7 @@ import SLUIRP.data.OpenYAML
 #import SLUIRP.in_dev.GetCD
 #import SLUIRP.sims
 import SLUIRP.sims.RocketPySim
-#import SLUIRP.plotting
+import SLUIRP.plotting.external_plots
 #import SLUIRP.in_dev.airbrakes_system.midair_sims
 #import dill
 #import time
@@ -34,7 +34,7 @@ def main():
     #SLUIRP.sims.RocketPySim.single_sim(5, 0, "ConfigFiles/2026_Proposal_12lb.yaml", "for 12 lb Design")
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim("ConfigFiles/2026_Proposal_12lb.yaml",
     #                                                      50, 1000, 20, [[0, 0.6],[0.25,0.5],[0.5,0.6]]))
-    #graph_OR()
+    SLUIRP.plotting.external_plots.graph_OR()
     #testFlight.plots.trajectory_3d()
     #testFlight.plots.aerodynamic_forces()
     #testFlight.prints.all()

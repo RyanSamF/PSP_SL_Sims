@@ -16,7 +16,7 @@ def prof_graph(drift, alt, ws, angle, program, more = None):
     ax1.set_ylabel("Altitude (ft)")
     ax1.set_xlabel('Drift Distance (ft)')
     lns3 = ax1.plot(drift, alt, color=(0, 0, 1))
-    plt.suptitle(program + " Flight Profile " + more if more != None else "",
+    plt.suptitle(program + " Flight Profile " + more if more != None else program + " Flight Profile",
         fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.title(plot_name)
@@ -59,7 +59,7 @@ def param_graph(time, alt, vel, accel, ws, angle, program, more = None):
         ax2.set_ylim(bottom = ax2_ylims[1]*ax1_yratio)
     else:
         ax1.set_ylim(bottom = ax1_ylims[1]*ax2_yratio)
-    plt.suptitle(program + " Flight Parameters vs. Time " + more if more != None else "" ,
+    plt.suptitle(program + " Flight Parameters vs. Time " + more if more != None else program + "Flight Parameters vs. Time" ,
                 fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.xlim((0, time[-1]))

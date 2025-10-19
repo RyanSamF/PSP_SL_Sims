@@ -22,7 +22,7 @@ rocket:
   radius: 2.575 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
   mass: 32.5 #mass in lbs
-  inertia: [215.27, 215.27, 1.19] #moment of inertia in lbs*ft^2
+  inertia: [215.27  , 215.27, 1.19] #moment of inertia in lbs*ft^2
   COM: 49.17 #center of mass from nose without motor in inches
   length: 98 #length of rocket in inches
 
