@@ -21,9 +21,9 @@ rocket:
   booster: 12.34  #mass of booster section in lbs
   radius: 2.575 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
-  mass: 33.6 #dry mass in lbs
+  mass: 33 #dry mass in lbs
   inertia: [199.85, 199.85, 1.16] #moment of inertia in lbs*ft^2
-  COM: 45.754 #center of mass from nose without motor in inches
+  COM: 44.887 #center of mass from nose without motor in inches
   length: 97 #length of rocket in inches
 
 nose_cone:
@@ -33,8 +33,8 @@ nose_cone:
   
 fins:
   n: 3 #number of fins
-  root_chord: 3.5 #root chord in inches
-  tip_chord: 3.5 #length of tip chord in inches
+  root_chord: 4.5 #root chord in inches
+  tip_chord: 4.5 #length of tip chord in inches
   offset: 1 #distance from bottom of fins to bottom of rocket
   span: 5.25 #span of fin in inches
   sweep: 0 #sweep length of fins in inches  
