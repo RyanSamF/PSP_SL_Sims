@@ -92,7 +92,7 @@ def readYaml (filename):
             cd_s = parachutes_data["main_cd"] * (parachutes_data["main_diameter"] / 2 * IN_TO_M) ** 2 * math.pi, 
             #Defined as area (m^2) * coefficient of drag 
             trigger = parachutes_data["main_trigger"] / FT_TO_M, #altitude of main deployment ft -> meters
-            lag = 0 #lag between deployment signal and deployment
+            lag = parachutes_data["delay"] #lag between deployment signal and deployment
         )
 
     #Adds drogue if present

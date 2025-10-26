@@ -43,7 +43,8 @@ parachutes:
   drogue_present: 1 #1 if drogue is present 0 if not
   main_present: 1 #1 if main is present 0 if not
   drogue_cd: 0.8 #coefficient of drag of drogue parachute
-  drogue_diameter: 18  #diameter of drogue parachute in inches
+  drogue_diameter: 20  #diameter of drogue parachute in inches
   main_cd: 1.6 #coefficient of drag of main parachute 
   main_diameter: 120 #diameter of main parachute in inches
-  main_trigger: 540 #trigger height for main parachute in ft
+  main_trigger: 700 #trigger height for main parachute in ft
+  delay: 1 #Delay between trigger and deployment in seconds

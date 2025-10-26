@@ -137,7 +137,7 @@ def single_sim(angle, speed, file_name, name = None, iteration = None):
     accel = testFlight.az(time) * FT_TO_M
     vel = testFlight.vz(time) * FT_TO_M
     mach_num = testFlight.mach_number(time)
-    drift = -1 * testFlight.x(time) * FT_TO_M
+    drift = -1 * testFlight.drift(time) * FT_TO_M
 
     for vIndex in range(0,len(vel)):
     #Determines velocity and time of main deployment
@@ -150,18 +150,18 @@ def single_sim(angle, speed, file_name, name = None, iteration = None):
     #Makes profile graphs for flight, altitude vs drift distance
     prof_graph(drift, alt, speed, angle, "RocketPy", name)
     final_vel= vel[-1]
-    stability= testFlight.stability_margin(testFlight.out_of_rail_time)
+    stability= testFlight.stability_margin(testFlight.out_of_rail_time + 5)
     descent_time= time[-1] - testFlight.apogee_time
     ascent_time= testFlight.apogee_time
     apogee= (testFlight.apogee - env.elevation) * FT_TO_M
-    distance= abs(drift[-1] + (FT_TO_M * testFlight.x(testFlight.apogee_time)))
+    distance= abs(drift[-1])
     run_params= plot_name
     max_mach= max(mach_num)
     max_vel= max(vel)
     max_accel= max(accel)
     max_ke= 0.5 * vel[-1] ** 2 * vehicle.m_heav / 32.17
     vel_at_main= vel_main_deploy
-    under_drogue= time_main_deploy + testFlight.apogee_time
+    under_drogue= time_main_deploy - testFlight.apogee_time
     #print("after" + str(time_main_deploy))
     under_main=(time[-1] - time_main_deploy)
     #print("Velocity at Main Deployment:" + str(vel_main_deploy))
