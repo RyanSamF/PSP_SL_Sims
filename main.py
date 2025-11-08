@@ -18,20 +18,26 @@ import SLUIRP.data.OpenYAML
 import SLUIRP.sims.RocketPySim
 import SLUIRP.plotting.external_plots
 import SLUIRP.in_dev.airbrakes_system.midair_sims
+import SLUIRP.data.OpenCSV
+import SLUIRP.plotting.external_plots
 #import dill
 #import time
 
 def main():
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
-
+    
+    env = SLUIRP.sims.RocketPySim.get_ST_env(8.7 * 0.3048)
+    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
+    vdf = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsvillelaunch.csv")
+    SLUIRP.plotting.external_plots.compare_sim_real(vdf, env, 6.5, "OpenRocket", vehicle)
     #vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
     #compare_sim_real(vdf_data, env, 3, "VDF Flight")
     #graph_thrust()
     #drag = np.array([[0, 0.8],[0.3, 0.9],[0.5,1]])
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim("ConfigFiles/2026_Proposal_12lb.yaml", 50, 300, 50 , drag))
     #SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, "ConfigFiles/feustel_pdr.yaml")
-    print(SLUIRP.in_dev.airbrakes_system.midair_sims.from_apogee_sim("ConfigFiles/feustel_pdr.yaml", 6000, 10))
+    #print(SLUIRP.in_dev.airbrakes_system.midair_sims.from_apogee_sim("ConfigFiles/feustel_pdr.yaml", 6000, 10))
     #SLUIRP.sims.RocketPySim.single_sim(5, 0, "ConfigFiles/2026_Proposal_12lb.yaml", "for 12 lb Design")
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim("ConfigFiles/2026_Proposal_12lb.yaml",
     #                                                      50, 1000, 20, [[0, 0.6],[0.25,0.5],[0.5,0.6]]))
