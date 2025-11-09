@@ -20,6 +20,7 @@ import SLUIRP.plotting.external_plots
 import SLUIRP.in_dev.airbrakes_system.midair_sims
 import SLUIRP.data.OpenCSV
 import SLUIRP.plotting.external_plots
+from SLUIRP.in_dev.airbrakes_system.create_airbrakes_table import airbrakes_table
 #import dill
 #import time
 
@@ -27,10 +28,18 @@ def main():
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
     
-    env = SLUIRP.sims.RocketPySim.get_ST_env(8.7 * 0.3048)
     vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
-    vdf = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsvillelaunch.csv")
-    SLUIRP.plotting.external_plots.compare_sim_real(vdf, env, 6.5, "OpenRocket", vehicle)
+    print("working")
+    airbrakes_table(init_vels=[100, 120, 140, 160, 180],
+                    init_alts=[200, 400, 600, 800, 1000],
+                    init_angles=[0, 5, 10, 15],
+                    apogee=1450,
+                    vehicle_file="ConfigFiles/feustel_pdr.yaml",
+                    drag_data="CSV_files/feustel_pdr_drag.csv")
+    #env = SLUIRP.sims.RocketPySim.get_ST_env(8.7 * 0.3048)
+    #vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
+    #vdf = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsvillelaunch.csv")
+    #SLUIRP.plotting.external_plots.compare_sim_real(vdf, env, 6.5, "OpenRocket", vehicle)
     #vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
     #compare_sim_real(vdf_data, env, 3, "VDF Flight")
     #graph_thrust()

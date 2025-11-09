@@ -1,6 +1,6 @@
 import rocketpy as rp
 import math 
-import SLUIRP.data.OpenYAML
+from SLUIRP.data.OpenYAML import readYaml_nothrust
 import time
 
 def midair_sim(vehicle_data, init_vel, init_alt, init_angle, drag_data = None):
@@ -17,14 +17,14 @@ def midair_sim(vehicle_data, init_vel, init_alt, init_angle, drag_data = None):
     # apogee - apogee in meters
     ##################################################
     #t1 = time.perf_counter()
-    vehicle = SLUIRP.data.OpenYAML.readYaml(vehicle_data)
     #t2 = time.perf_counter() - t1
+    vehicle = readYaml_nothrust(vehicle_data, drag_data)
     if drag_data is not None:
         vehicle.power_off_drag = rp.Function(drag_data)
         vehicle.power_on_drag = rp.Function(drag_data)
     #t3 = time.perf_counter() - t1 - t2
     #sets up environment
-    env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=187)
+    env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=0)
     env.set_date((2026, 4, 13, 6))
     #Creates environment using standard atmosphere and zero wind speed
     env.set_atmospheric_model(
@@ -37,19 +37,17 @@ def midair_sim(vehicle_data, init_vel, init_alt, init_angle, drag_data = None):
     init_angle = math.radians(init_angle)
     [q_0, q_1, q_2, q_3] = rp.tools.euler313_to_quaternions(init_angle, 0, 0) #converts pitch into quaternion
     vehicle.motor.propellant_mass = 0
-    vehicle.motor.thrust_source = "CSV_files/zero.csv" #this is literally just a csv file with two zeros in it
+    vehicle.motor.thrust_source = rp.Function([[0, 1],[1, 0]]) #this is literally just a csv file with two zeros in it
     testFlight   = rp.Flight(
             rocket = vehicle,
             environment = env, 
             rail_length = 5, 
             inclination = 90, 
             heading = 270,
-            initial_solution=[0, 0, 0, init_alt+env.elevation, 
+            initial_solution=[0, 0, 0, init_alt, 
                 math.sin(init_angle) * init_vel, 0 , math.cos(init_angle) * init_vel,
                 q_0, q_1, q_2, q_3, 0, 0, 0],
-            terminate_on_apogee=1,
-            atol = 6*1e-3 + 4*1e-6 + 3*1e-3,
-            ode_solver = 'RK45' )
+            terminate_on_apogee=1)
     #t5 = time.perf_counter() - t1 - t4
     #print("vehicle definition: ", t2)
     #print("drag definition:", t3)
