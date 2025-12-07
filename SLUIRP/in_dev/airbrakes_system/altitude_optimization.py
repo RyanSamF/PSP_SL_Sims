@@ -28,6 +28,7 @@ def alt_opt(vehicle_data, init_vel, init_angle, init_alt, goal_alt, drag_file):
     vehicle = readYaml(vehicle_data)
     init_drag = vehicle.power_off_drag(init_vel / 343)
     cur_drag = init_drag
+    #print(init_drag)
     #print(cur_drag)
     mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, init_drag)
     cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = np.column_stack([mach_curve, cd_curve]))
@@ -38,7 +39,12 @@ def alt_opt(vehicle_data, init_vel, init_angle, init_alt, goal_alt, drag_file):
         mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, cur_drag)
         cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = np.column_stack([mach_curve, cd_curve]))
         #print("Apogee:", cur_apogee)
-        if cur_drag < init_drag and cur_apogee < goal_alt:
+        if cur_drag < 0 and cur_apogee < goal_alt:
             return(-1)
-    return(cur_drag)
+        if cur_drag > 2 and cur_apogee > goal_alt:
+            return(-2)
+    if cur_drag > 0:
+        return(cur_drag)
+    else:
+        return(-1)
 

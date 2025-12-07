@@ -24,6 +24,9 @@ def airbrakes_table(init_vels, init_alts, init_angles, apogee, vehicle_file, dra
                                                                 init_alt=init_alts[alt_index],
                                                                 goal_alt=apogee,
                                                                 drag_file=drag_data)
+                print(alt_index+len(init_alts)*v_index+len(init_alts)*len(init_vels)*angle_index, end = "\r")
         labelled_data = pd.DataFrame(data, index=init_vels, columns=init_alts)
         angle_dict[init_angles[angle_index]] = labelled_data
         print(labelled_data)
+        labelled_data.to_csv('lookup'+str(init_angles[angle_index])+'degrees.csv')
+    return(angle_dict)

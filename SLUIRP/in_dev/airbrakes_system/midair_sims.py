@@ -2,6 +2,7 @@ import rocketpy as rp
 import math 
 from SLUIRP.data.OpenYAML import readYaml_nothrust
 import time
+from SLUIRP.data.OpenYAML import readYaml
 
 def midair_sim(vehicle_data, init_vel, init_alt, init_angle, drag_data = None):
     ##################################################
