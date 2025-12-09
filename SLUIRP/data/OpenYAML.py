@@ -187,17 +187,29 @@ def readYaml (filename):
             cd_s = parachutes_data["main_cd"] * (parachutes_data["main_diameter"] / 2 * IN_TO_M) ** 2 * math.pi, 
             #Defined as area (m^2) * coefficient of drag 
             trigger = parachutes_data["main_trigger"] / FT_TO_M, #altitude of main deployment ft -> meters
-            lag = parachutes_data["delay"] #lag between deployment signal and deployment
+            lag = parachutes_data["delay"], #lag between deployment signal and deployment
+            radius = parachutes_data["main_diameter"] * IN_TO_M / 2
         )
+        print("I'm working!!!!")
 
     #Adds drogue if present
-    if parachutes_data["drogue_present"]:
+    if parachutes_data["drogue_present"] == 1:
         drogue = vehicle.add_parachute(
             name = "drogue",
             lag = 0,# lag between deployment signal and deployment
             cd_s = parachutes_data["drogue_cd"] * (parachutes_data["drogue_diameter"] / 2 * IN_TO_M) ** 2 * math.pi,
             #Defined as area (m^2) * coefficient of drag 
-            trigger = "apogee" #Triggers drogue and apogee
+            trigger = "apogee", #Triggers drogue and apogee
+            radius = parachutes_data["drogue_diameter"] * IN_TO_M / 2
+        )
+    elif parachutes_data["drogue_present"] == 2:
+        drogue = vehicle.add_parachute(
+            name = "drogue",
+            lag = 0,# lag between deployment signal and deployment
+            cd_s = parachutes_data["drogue_cd"] * IN_TO_M ** 2,
+            #Defined as area (m^2) * coefficient of drag 
+            trigger = "apogee", #Triggers drogue and apogee
+            radius = 0.001
         )
     vehicle.m_heav = m_heav
     vehicle.main_deploy = main.trigger

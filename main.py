@@ -31,7 +31,7 @@ def main():
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
     
-    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
+    vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_subscale.yaml")
     print(vehicle.area)
     print("working")
     #mach_curve, cd_curve = CD_curve_estimate(drag_curve="CSV_files/feustel_pdr_drag.csv",cur_mach=0.262, cur_cd=0.75)
@@ -41,13 +41,13 @@ def main():
     #                        init_angle=0,
     #                        drag_data = np.column_stack([mach_curve, cd_curve]))
     #print(cur_apogee)
-    print(range(300, 4400,205))
-    table = airbrakes_table(init_vels=range(10, 210, 10),
-                    init_alts=range(75, 1335,63),
-                    init_angles=[0, 5, 10, 15, 20],
-                    apogee=1341,
-                    vehicle_file="ConfigFiles/feustel_pdr.yaml",
-                    drag_data="CSV_files/feustel_pdr_drag.csv")
+    #print(range(300, 4400,205))
+    #table = airbrakes_table(init_vels=range(10, 210, 10),
+    #                init_alts=range(75, 1335,63),
+    #                init_angles=[0, 5, 10, 15, 20],
+    #                apogee=1341,
+    #                vehicle_file="ConfigFiles/feustel_pdr.yaml",
+    #                drag_data="CSV_files/feustel_pdr_drag.csv")
     #env = SLUIRP.sims.RocketPySim.get_ST_env(8.7 * 0.3048)
     #vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_pdr.yaml")
     #vdf = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsvillelaunch.csv")
@@ -57,7 +57,7 @@ def main():
     #graph_thrust()
     #drag = np.array([[0, 0.8],[0.3, 0.9],[0.5,1]])
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim("ConfigFiles/2026_Proposal_12lb.yaml", 50, 300, 50 , drag))
-    #SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, "ConfigFiles/feustel_pdr.yaml")
+    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, "ConfigFiles/feustel_subscale.yaml")
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.from_apogee_sim("ConfigFiles/feustel_pdr.yaml", 6000, 10))
     #SLUIRP.sims.RocketPySim.single_sim(5, 0, "ConfigFiles/2026_Proposal_12lb.yaml", "for 12 lb Design")
     #print(SLUIRP.in_dev.airbrakes_system.midair_sims.midair_sim("ConfigFiles/2026_Proposal_12lb.yaml",

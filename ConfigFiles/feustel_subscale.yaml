@@ -1,0 +1,50 @@
+#Config File for Rocket setup
+---
+#Files for Motor
+githubfiles:
+  thrusturl: 'CSV_files/I435T_thrust.csv' #url for thrust
+  dragurl: 'CSV_files/feustel_subscale_drag.csv' #url for drag
+
+motor:
+  net_mass: 1.142 #mass of motor with propellant in lbs
+  prop_mass: 0.595 #mass of propellant in lbs
+  center_of_dry_mass: 5 #distance from nozzle of center of mass of motor without propellant in inches
+  dry_inertia: [0.01, 0.01, 0.001] #moment of inertia without propellant in lbs*ft^2 
+  chamber_rad: 1 #radius of inside of propellant chamber in inches
+  chamber_height: 8 #height of propellant chamber in inches
+  chamber_pos: 5 #position of center of propellant chamber inches
+  nozzle_rad: 0.5 #radius of nozzle in inches
+
+rocket:
+  uppersec: 9.56 #mass of upper section in lbs
+  midsec: 9.54  #mass of middle section in lbs
+  booster: 12.34  #mass of booster section in lbs
+  radius: 1.56 #radius of rocket in in
+  h_section: 12.34 #heaviest section of rocket in lbs
+  mass: 8.78 #dry mass in lbs
+  inertia: [16.8, 16.8, 0.12] #moment of inertia in lbs*ft^2
+  COM: 28.1 #center of mass from nose without motor in inches
+  length: 59.25 #length of rocket in inches
+
+nose_cone:
+  length: 5.5 #length of nose cone in inches
+  type: 'elliptical' #Type of nose cone #
+  #For nose cone type past years has been "von_karman" or "elliptical" look at rocketpy docs if unsure
+  
+fins:
+  n: 3 #number of fins
+  root_chord: 2.75 #root chord in inches
+  tip_chord: 2.75 #length of tip chord in inches
+  offset: 0.606 #distance from bottom of fins to bottom of rocket
+  span: 3 #span of fin in inches
+  sweep: 0 #sweep length of fins in inches  
+
+parachutes:
+  drogue_present: 2 #1 if drogue is present 0 if not, 2 if it's a streamer
+  main_present: 1 #1 if main is present 0 if not
+  drogue_cd: 93  #coefficient of drag of drogue parachute, or CD_S of streamer (coefficient of drag * area)
+  drogue_diameter: 20  #diameter of drogue parachute in inches
+  main_cd: 1.6 #coefficient of drag of main parachute 
+  main_diameter: 36 #diameter of main parachute in inches
+  main_trigger: 700 #trigger height for main parachute in ft
+  delay: 1 #Delay between trigger and deployment in seconds

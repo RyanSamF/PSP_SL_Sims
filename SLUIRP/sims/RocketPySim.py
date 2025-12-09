@@ -154,6 +154,7 @@ def single_sim(angle, speed, file_name, name = None, iteration = None):
     descent_time= time[-1] - testFlight.apogee_time
     ascent_time= testFlight.apogee_time
     apogee= (testFlight.apogee - env.elevation) * FT_TO_M
+    print(apogee)
     distance= abs(drift[-1])
     run_params= plot_name
     max_mach= max(mach_num)
