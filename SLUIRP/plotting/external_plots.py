@@ -93,7 +93,7 @@ def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
     vdf_data[3] *= FT_TO_M
 
 
-    compare_graph([time, alt, vel, accel], vdf_data, 10, 3, "RocketPy", flight_name)
+    compare_graph([time, alt, vel, accel], vdf_data, 10, aoa, "RocketPy", flight_name)
 
 
 def graph_OR():

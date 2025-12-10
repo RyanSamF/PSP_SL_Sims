@@ -190,7 +190,6 @@ def readYaml (filename):
             lag = parachutes_data["delay"], #lag between deployment signal and deployment
             radius = parachutes_data["main_diameter"] * IN_TO_M / 2
         )
-        print("I'm working!!!!")
 
     #Adds drogue if present
     if parachutes_data["drogue_present"] == 1:
@@ -211,7 +210,11 @@ def readYaml (filename):
             trigger = "apogee", #Triggers drogue and apogee
             radius = 0.001
         )
+    total_area = rocket_data.get("total_area")
+    if total_area:
+        vehicle.area = total_area
     vehicle.m_heav = m_heav
+   
     vehicle.main_deploy = main.trigger
     return(vehicle)
 
@@ -307,6 +310,10 @@ def readYaml_nothrust (filename, drag_data):
             #Defined as area (m^2) * coefficient of drag 
             trigger = "apogee" #Triggers drogue and apogee
         )
+    total_area = rocket_data.get("total_area")
+    if total_area:
+        vehicle.area = total_area
+    vehicle.m_heav = m_heav
     vehicle.m_heav = m_heav
     vehicle.main_deploy = main.trigger
     return(vehicle)

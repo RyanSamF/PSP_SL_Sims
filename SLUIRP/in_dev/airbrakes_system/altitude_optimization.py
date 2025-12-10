@@ -25,26 +25,30 @@ def cd_equation (init_vel, velocity, cd):
 
     return cd
 def alt_opt(vehicle_data, init_vel, init_angle, init_alt, goal_alt, drag_file):
-    vehicle = readYaml(vehicle_data)
-    init_drag = vehicle.power_off_drag(init_vel / 343)
+    init_drag = 0.5 #vehicle.power_off_drag(init_vel / 343)
     cur_drag = init_drag
     #print(init_drag)
     #print(cur_drag)
-    mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, init_drag)
-    cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = np.column_stack([mach_curve, cd_curve]))
+    #mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, init_drag)
+    cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = cur_drag) #np.column_stack([mach_curve, cd_curve]))
     #print(np.abs(cur_apogee - goal_alt))
-    while np.abs(cur_apogee - goal_alt) > 10:
-        cur_drag = cur_drag - (goal_alt - cur_apogee) / 500
+    n = 0
+    while np.abs(cur_apogee - goal_alt) > goal_alt / 1000:
+        n += 1
+        cur_drag = cur_drag - (goal_alt - cur_apogee) / (500 + 10*n)
+        #print(cur_drag, end='\r')
         #print("drag:", cur_drag)
-        mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, cur_drag)
-        cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = np.column_stack([mach_curve, cd_curve]))
+        #mach_curve, cd_curve = CD_curve_estimate(drag_file, init_vel / 343, cur_drag)
+        cur_apogee = midair_sim(vehicle_data, init_vel, init_alt,init_angle, drag_data = cur_drag) #np.column_stack([mach_curve, cd_curve]))
         #print("Apogee:", cur_apogee)
-        if cur_drag < 0 and cur_apogee < goal_alt:
+        if cur_drag < 0.1 and cur_apogee < goal_alt:
             return(-1)
-        if cur_drag > 2 and cur_apogee > goal_alt:
+        if cur_drag > 0.7 and cur_apogee > goal_alt:
             return(-2)
-    if cur_drag > 0:
+    if cur_drag > 0.1 and cur_drag < 0.7:
         return(cur_drag)
-    else:
+    elif cur_drag < 0.1:
         return(-1)
+    else:
+        return(-2)
 

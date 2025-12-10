@@ -3,7 +3,7 @@
 #Files for Motor
 githubfiles:
   thrusturl: 'CSV_files/I435T_thrust.csv' #url for thrust
-  dragurl: 'CSV_files/feustel_subscale_drag.csv' #url for drag
+  dragurl: 'CSV_files/feustel_subscale_drag_clone.csv' #url for drag
 
 motor:
   net_mass: 1.142 #mass of motor with propellant in lbs
@@ -42,9 +42,9 @@ fins:
 parachutes:
   drogue_present: 2 #1 if drogue is present 0 if not, 2 if it's a streamer
   main_present: 1 #1 if main is present 0 if not
-  drogue_cd: 93  #coefficient of drag of drogue parachute, or CD_S of streamer (coefficient of drag * area)
+  drogue_cd: 93  #coefficient of drag of drogue parachute, or CD_S of streamer (coefficient of drag * area in in^2)
   drogue_diameter: 20  #diameter of drogue parachute in inches
-  main_cd: 1.6 #coefficient of drag of main parachute 
+  main_cd: 0.9 #coefficient of drag of main parachute 
   main_diameter: 36 #diameter of main parachute in inches
   main_trigger: 700 #trigger height for main parachute in ft
-  delay: 1 #Delay between trigger and deployment in seconds
+  delay: 0 #Delay between trigger and deployment in seconds

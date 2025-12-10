@@ -17,7 +17,7 @@ FT_TO_M = 3.28084
 IN_TO_M = 1 / 39.37
 LBS_TO_KG = 0.4536
 
-def get_windy_env(env_time):
+def get_windy_env(env_time, lat, long):
     ###################################################################################
     #Creates RocketPy environment variable using data from WINDY given a date and time
     #INPUTS:
@@ -27,8 +27,8 @@ def get_windy_env(env_time):
     ###################################################################################
     """POSSIBLY NOT WORKING"""
 
-    env = rp.Environment(latitude = 40.505404, longitude = -87.019832,elevation=187)
-    env.set_date(env_time)
+    env = rp.Environment(latitude = lat, longitude = long, elevation=187)
+    env.set_date(env_time, "America/Indiana/Indianapolis")
     env.set_atmospheric_model(
         type="Windy",
         file="ICON"
@@ -47,7 +47,7 @@ def get_ST_env(wind_speed):
     ###################################################################################
 
     #Defines environment with elevation, time and position ((MAKE THIS AN INPUT))
-    env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=187)
+    env = rp.Environment(latitude = 40.505404, longitude = -87.019832, elevation=0)
         #URL = "http://weather.uwyo.edu/cgi-bin/sound   ing?region=naconf&TYPE=TEXT%3ALIST&YEAR=2024&MONTH=04&FROM=1300&TO=1312&STNM=72230"
     env.set_date((2024, 4, 13, 6))
     #Creates environment using standard atmosphere, and defining wind at 0 and 5000 meters as wind speed
