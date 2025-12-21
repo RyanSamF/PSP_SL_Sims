@@ -31,20 +31,25 @@ def main():
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
     vehicle = "ConfigFiles/feustel_cdr.yaml"
+    vfile = SLUIRP.data.OpenYAML.readYaml(vehicle)
+    SLUIRP.sims.RocketPySim.multi_sim(angles = angles, speeds=speeds, vehicle=vehicle, markers = 1)
+    """
     airbrakes_multi(vehicle = vehicle, 
                 angles = angles,
                 speeds = speeds, 
                 lookup_csv = 'CSV_files/CFD_lookup.csv', 
                 drag = 'CSV_files/air_brakes_drag.csv')
-    """
+    
     vehicle = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_cdr.yaml")
     print(vehicle.area)
     print("working")
     data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/OR_cdr.csv")
     #env = SLUIRP.sims.RocketPySim.get_windy_env([2025, 11, 22, 12], 40.509294, -87.023958)
     env = SLUIRP.sims.RocketPySim.get_ST_env(5)
-    SLUIRP.plotting.external_plots.compare_sim_real(data, env, 0, "Subscale", vehicle)
     """
+    data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/05.csv")
+    environment = SLUIRP.sims.RocketPySim.get_ST_env(8.7)
+    SLUIRP.plotting.external_plots.compare_sim_real(vdf_data=data, env =environment, ws = 8.7, aoa = 6.5, flight_name = "OpenRocket", vehicle =vfile)
     #mach_curve, cd_curve = CD_curve_estimate(drag_curve="CSV_files/feustel_pdr_drag.csv",cur_mach=0.262, cur_cd=0.75)
     #cur_apogee = midair_sim(vehicle_data="ConfigFiles/feustel_pdr.yaml",
     #                        init_vel=187,

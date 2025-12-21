@@ -59,7 +59,7 @@ def get_ST_env(wind_speed):
         temperature=None) #no change from standard atmosphere in temperature
     return(env)
 
-def multi_sim(angles, speeds, vehicle, name = None):
+def multi_sim(angles, speeds, vehicle, name = None, markers = 0):
     ###################################################################################
     #Creates profile plots and vertical movement plots given pairs of angles and wind
     # speeds, also outputs useful data to output file
@@ -108,7 +108,7 @@ def multi_sim(angles, speeds, vehicle, name = None):
             under_main,
             vel_at_main]
     #simulates launch and records above data for each pair of wind speeds and angles 
-    end_results = joblib.Parallel(n_jobs=-1)(joblib.delayed(single_sim)(angles[i], speeds[i], vehicle, name, i) for i in range(len(speeds)))
+    end_results = joblib.Parallel(n_jobs=-1)(joblib.delayed(single_sim)(angles[i], speeds[i], vehicle, name, markers, i) for i in range(len(speeds)))
     end_results.insert(0, labels)
     end_results = [list(row) for row in zip(*end_results)]
     """PROBABLY WANT TO MAKE THIS IT'S OWN FUNCTION AT SOME POINT"""
@@ -125,7 +125,7 @@ def multi_sim(angles, speeds, vehicle, name = None):
     print(f"Data written to {filename}")
 
 
-def single_sim(angle, speed, file_name, name = None, iteration = None):
+def single_sim(angle, speed, file_name, name = None, markers = 0, iteration = None):
     vehicle = readYaml(file_name)
     end_results = None
     env = get_ST_env(speed * 0.44704)
@@ -145,8 +145,11 @@ def single_sim(angle, speed, file_name, name = None, iteration = None):
             vel_main_deploy = vel[vIndex]
             time_main_deploy = time[vIndex]
             #print("alt:" + str(alt[-1]))
-    plot_name = param_graph(time, alt, vel, accel, speed, angle, "RocketPy", name)
-    
+    if markers == 1:
+        ejections = [testFlight.apogee_time, time_main_deploy]
+    else:
+        ejections = None
+    plot_name = param_graph(time, alt, vel, accel, speed, angle, "RocketPy", name, ejections)
     #Makes profile graphs for flight, altitude vs drift distance
     prof_graph(drift, alt, speed, angle, "RocketPy", name)
     final_vel= vel[-1]

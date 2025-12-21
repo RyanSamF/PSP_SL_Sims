@@ -48,4 +48,4 @@ parachutes:
   main_cd: 1.6 #coefficient of drag of main parachute 
   main_diameter: 120 #diameter of main parachute in inches
   main_trigger: 700 #trigger height for main parachute in ft
-  delay: 1 #Delay between trigger and deployment in seconds
+  delay: 0 #Delay between trigger and deployment in seconds

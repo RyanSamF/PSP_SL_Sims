@@ -64,11 +64,11 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.xlim((0, max(time1[-1],time2[-1])))
     plt.title(plot_name)
-    plt.show()
     plt.savefig('Plots/' + "compare" + program1 + program2 + " Parameters.png", format='png')
+    plt.show()
 
 
-def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
+def compare_sim_real(vdf_data, env, aoa, ws, flight_name, vehicle):
     #########################################################################################
     # simulates a flight and graphs it in comparison to real flight data
     # INPUTS:
@@ -93,7 +93,7 @@ def compare_sim_real(vdf_data, env, aoa, flight_name, vehicle):
     vdf_data[3] *= FT_TO_M
 
 
-    compare_graph([time, alt, vel, accel], vdf_data, 10, aoa, "RocketPy", flight_name)
+    compare_graph([time, alt, vel, accel], vdf_data, ws, aoa, "RocketPy", flight_name)
 
 
 def graph_OR():
