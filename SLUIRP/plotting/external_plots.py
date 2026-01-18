@@ -62,6 +62,7 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     plt.suptitle(program1 + " Vs. " + program2 + " Parameters vs. Time",
                 fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
+    plot_name = "Launch Day Parameters"
     plt.xlim((0, max(time1[-1],time2[-1])))
     plt.title(plot_name)
     plt.savefig('Plots/' + "compare" + program1 + program2 + " Parameters.png", format='png')
@@ -86,12 +87,11 @@ def compare_sim_real(vdf_data, env, aoa, ws, flight_name, vehicle):
     alt = testFlight.altitude(time) * FT_TO_M
     accel = testFlight.az(time) * FT_TO_M
     vel = testFlight.vz(time) * FT_TO_M
-
-    #Converts meters to feet
+    kernel = np.ones(5) / 5
     vdf_data [1] *= FT_TO_M
     vdf_data[2] *= FT_TO_M
     vdf_data[3] *= FT_TO_M
-
+    vdf_data[3] = np.convolve(vdf_data[3], kernel, mode='same')
 
     compare_graph([time, alt, vel, accel], vdf_data, ws, aoa, "RocketPy", flight_name)
 
@@ -107,12 +107,37 @@ def graph_OR():
     #######################################################################
     y = [['0','5'],['5','5'],['10','7.5'], ['15','7.5'], ['20','10']]
     for x in y:
+        test = 0
         df = pandas.read_csv('CSV_files/' + x[0] + x[1].replace('.', '')+'.csv', index_col=None)
         time = np.array(df[df.columns[0]].tolist())
         alt = np.array(df[df.columns[1]].tolist())
         vel = np.array(df[df.columns[2]].tolist())
         accel = np.array(df[df.columns[3]].tolist())
-        param_graph(time, alt, vel, accel, x[0], x[1], "OpenRocket")
+        events = []
+        delete_rows=[]
+        for i, t in enumerate(time):
+            if type(t) is np.str_:
+                test = 1
+                print(t)
+                if "RECOVERY_DEVICE_DEPLOYMENT" in t or "BURNOUT" in t:
+                    events.append(float(time[i-1 if i-1 not in delete_rows else i-2]))
+                    print("event found")
+                if "#" in t:
+                    delete_rows.append(i)
+        if test == 1:
+            print(time)
+
+        
+        alt = np.delete(alt, delete_rows)
+        time = np.delete(time, delete_rows)
+        vel = np.delete(vel, delete_rows)
+        accel = np.delete(accel, delete_rows)
+        time = time.astype(float)
+        vel = vel.astype(float)
+        alt = alt.astype(float)
+        accel = accel.astype(float)
+        print(events)
+        param_graph(time, alt, vel, accel, x[0], x[1], "OpenRocket",ejections=events if events else None)
 
 def graph_thrust(thrusturl):
     ##################################################

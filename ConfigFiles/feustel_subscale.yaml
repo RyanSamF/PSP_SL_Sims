@@ -21,7 +21,7 @@ rocket:
   booster: 12.34  #mass of booster section in lbs
   radius: 1.56 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
-  mass: 8.78 #dry mass in lbs
+  mass: 9.58 #dry mass in lbs
   inertia: [16.8, 16.8, 0.12] #moment of inertia in lbs*ft^2
   COM: 28.1 #center of mass from nose without motor in inches
   length: 59.25 #length of rocket in inches
@@ -44,7 +44,7 @@ parachutes:
   main_present: 1 #1 if main is present 0 if not
   drogue_cd: 93  #coefficient of drag of drogue parachute, or CD_S of streamer (coefficient of drag * area in in^2)
   drogue_diameter: 20  #diameter of drogue parachute in inches
-  main_cd: 0.9 #coefficient of drag of main parachute 
+  main_cd: 0.7 #coefficient of drag of main parachute 
   main_diameter: 36 #diameter of main parachute in inches
   main_trigger: 700 #trigger height for main parachute in ft
   delay: 0 #Delay between trigger and deployment in seconds

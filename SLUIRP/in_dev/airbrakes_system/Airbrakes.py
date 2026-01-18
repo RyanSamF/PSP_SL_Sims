@@ -23,6 +23,7 @@ def controller(time, sampling_rate, state, state_history, observed_variables, ai
     vel = state[5]  
     if alt < 75:
         new_deployment_level = 0
+    #CHANGE HARD CODED VALUE TO MAX ALT IN LOOKUP TABLE
     elif alt > 1325:
         new_deployment_level = 1
     elif vel > 10 and vel < 205:
@@ -68,7 +69,7 @@ def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air 
     accel = airbrakes_flight.az(time) * FT_TO_M
     vel = airbrakes_flight.vz(time) * FT_TO_M
     mach_num = airbrakes_flight.mach_number(time)
-    drift = -1 * airbrakes_flight.drift(time) * FT_TO_M
+    drift = -1 * airbrakes_flight.x(time) * FT_TO_M
 
     for vIndex in range(0,len(vel)):
     #Determines velocity and time of main deployment

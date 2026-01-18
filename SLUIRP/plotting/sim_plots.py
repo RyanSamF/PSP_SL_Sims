@@ -43,14 +43,7 @@ def param_graph(time, alt, vel, accel, ws, angle, program, more = None, ejection
     plt.grid()
     ax1.set_ylabel("Altitude (ft)")
     ax1.set_xlabel('time (s)')
-    if ejections is not None:
-        #Places vertical lines at drogue and main deployment, and attempts to place labels where readable
-        #Currently places labels above where altitude is at main deployment so drogue label is below ascent parabola
-        # and main label is above main descent
-        plt.axvline(x=ejections[0], color='black', linestyle='--', label='Drogue Deployment')
-        plt.text(x=ejections[0] + time[-1]*0.01, y=alt[ejections[1]] * 1.02, s='Drogue Deployment',rotation=90, color ='black')
-        plt.axvline(x=ejections[1], color='black', linestyle='--', label='Main Deployment')
-        plt.text(x=ejections[1] + time[-1]*0.01, y=alt[ejections[1]] * 1.02, s='Main Deployment',rotation=90, color='black')
+    
     lns3 = ax1.plot(time, alt, color=(0, 0, 1),label="Altitude")
     ax2 = ax1.twinx()
     ax2.set_ylabel('Acceleration (ft/s²), Velocity (ft/s)')
@@ -74,16 +67,28 @@ def param_graph(time, alt, vel, accel, ws, angle, program, more = None, ejection
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
     plt.xlim((0, time[-1]))
     plt.title(plot_name)
+    if ejections is not None:
+        print(ejections[1])
+        #Places vertical lines at drogue and main deployment, and attempts to place labels where readable
+        #Currently places labels above where altitude is at main deployment so drogue label is below ascent parabola
+        # and main label is above main descent
+        plt.axvline(x=ejections[0], color='black', linestyle='--', label='Drogue Deployment', alpha = 0.5)
+        plt.text(x=ejections[0] + time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85 , s='Motor Cutoff',rotation=90, color ='black',va='top')
+        plt.axvline(x=ejections[1], color='black', linestyle='--', label='Drogue Deployment', alpha = 0.5)
+        plt.text(x=ejections[1] + time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85, s='Drogue Deployment',rotation=90, color ='black',va='top')
+        plt.axvline(x=ejections[2], color='black', linestyle='--', label='Main Deployment', alpha = 0.5)
+        plt.text(x=ejections[2] + time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85, s='Main Deployment',rotation=90, color='black',va='top')
     
     plt.savefig('Plots/' + plot_name +  program + " Parameters.png", format='png')
     return(plot_name)
 
-def drift_map(drifts, wind_speeds, max_drift, program = None):
+def drift_map(drifts, wind_speeds, max_drift, program = None, extra = ''):
     img_path = 'SLUIRP/plotting/raw_map.jpg'
     img = plt.imread(img_path)
     fig, ax = plt.subplots()
     ax.imshow(img, zorder=0, extent=[-3000, 3000, -3000, 3000], aspect=1)
-    inner_radii = [0] + drifts[:-1]
+    inner_radii = [0] + list(drifts[:-1])
+    print(inner_radii)
     # Iterate through the radii to draw rings
     for i, r_outer in enumerate(drifts):
         r_inner = inner_radii[i]
@@ -92,7 +97,7 @@ def drift_map(drifts, wind_speeds, max_drift, program = None):
         width = r_outer - r_inner
 
         # Get color for wedge
-        percent = r_outer/max_drift
+        percent = i/len(drifts)
         print(percent)
         if percent < 0.5:
             color = (min(1,percent*2), 1, 0)
@@ -114,16 +119,12 @@ def drift_map(drifts, wind_speeds, max_drift, program = None):
         )
         ax.add_patch(ring)
         #plt.text(x=0, y=r_inner + width/2,  s=str(wind_speeds[i]) + " MPH",horizontalalignment='center', color="white")
-    ring = patches.Wedge(
-            (0, 0), 
-            max_drift, 
-            theta1=0, 
-            theta2=360, 
-            width=max_drift-max(drifts),
-            facecolor=(1,0,0),
-            alpha=0.5,
-            edgecolor='none', # Avoid double-drawing edges which can cause overlap artifacts
-            label = "Max Drift Allowed"
+    ring = plt.Circle(
+            (0, 0),
+            max_drift,
+            color = "Black",
+            fill=False,
+            label = "Max Drift"
         )
     ax.add_patch(ring)
     #plt.text(x=0,y=max(drifts) + (max_drift-max(drifts))/2, s="Max Drift Allowed", horizontalalignment='center',color = "white")
@@ -131,8 +132,7 @@ def drift_map(drifts, wind_speeds, max_drift, program = None):
     plt.xlabel("East/West Distance from Launch")
     plt.ylabel("North/South Distance from Launch")
     plt.suptitle("Wind Speed vs. Drift Distance Map", fontweight='bold')
-    plt.title(program)
+    plt.title(program + extra)
     plt.legend()
+    plt.savefig("Plots/driftmap" + program + ".jpg", bbox_inches='tight')
     plt.show()
-
-drift_map([408.38, 984.43, 1463.25, 1903.15],[5, 10, 15, 20], 2500, "OpenRocket")

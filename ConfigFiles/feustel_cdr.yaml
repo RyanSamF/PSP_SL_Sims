@@ -9,7 +9,7 @@ motor:
   net_mass: 7.8 #mass of motor with propellant in lbs
   prop_mass: 4.05 #mass of propellant in lbs
   center_of_dry_mass: 9.5 #distance from nozzle of center of mass of motor without propellant in inches
-  dry_inertia: [1.77, 1.77, 0.02] #moment of inertia without propellant in lbs*ft^2 
+  dry_inertia: [1.77, 1.77, 0.02] #moment of inertia without propellant in lbs*ft^2   
   chamber_rad: 1.38 #radius of inside of propellant chamber in inches
   chamber_height: 19.625 #height of propellant chamber in inches
   chamber_pos: 10.5 #position of center of propellant chamber inches
@@ -21,9 +21,9 @@ rocket:
   booster: 12.34  #mass of booster section in lbs
   radius: 2.575 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
-  mass: 33.5 #dry mass in lbs
-  inertia: [281.91, 218.91, 1.09] #moment of inertia in lbs*ft^2
-  COM: 50.606 #center of mass from nose without motor in inches
+  mass: 34.3 #dry mass in lbs
+  inertia: [218.5, 218.5, 1.12] #moment of inertia in lbs*ft^2
+  COM: 50.631 #center of mass from nose without motor in inches
   length: 102 #length of rocket in inches
   total_area: 0.0189 #total reference area from CFD of rocket in m^2 (optional, 0 if none)
 
@@ -34,10 +34,10 @@ nose_cone:
   
 fins:
   n: 3 #number of fins
-  root_chord: 4.5 #root chord in inches
-  tip_chord: 4.5 #length of tip chord in inches
-  offset: 1 #distance from bottom of fins to bottom of rocket
-  span: 5.25 #span of fin in inches
+  root_chord: 4.75 #root chord in inches
+  tip_chord: 4.75 #length of tip chord in inches
+  offset: 0 #distance from bottom of fins to bottom of rocket
+  span: 5.5 #span of fin in inches
   sweep: 0 #sweep length of fins in inches  
 
 parachutes:
@@ -47,5 +47,5 @@ parachutes:
   drogue_diameter: 20  #diameter of drogue parachute in inches
   main_cd: 1.6 #coefficient of drag of main parachute 
   main_diameter: 120 #diameter of main parachute in inches
-  main_trigger: 700 #trigger height for main parachute in ft
+  main_trigger: 750 #trigger height for main parachute in ft
   delay: 0 #Delay between trigger and deployment in seconds

@@ -8,7 +8,7 @@ import math
 import matplotlib.pyplot as plt
 import csv
 from zoneinfo import ZoneInfo
-from SLUIRP.plotting.sim_plots  import param_graph, prof_graph
+from SLUIRP.plotting.sim_plots  import param_graph, prof_graph, drift_map
 import joblib
 from SLUIRP.data.OpenYAML import readYaml
 import time
@@ -92,6 +92,7 @@ def multi_sim(angles, speeds, vehicle, name = None, markers = 0):
     under_drogue = "Time Under Drogue (sec)" 
     under_main = "Time Under Main (sec)"
     vel_at_main = "Velocity at Main Deployment (ft/s)" 
+    max_accel_motor = "Max Acceleration during Motor Burn (ft/s^2)"
     run_params = ""
     end_results = [None]*(len(angles) + 1)
     labels = [run_params, 
@@ -106,9 +107,16 @@ def multi_sim(angles, speeds, vehicle, name = None, markers = 0):
             max_ke, 
             under_drogue, 
             under_main,
-            vel_at_main]
+            vel_at_main,
+            max_accel_motor]
     #simulates launch and records above data for each pair of wind speeds and angles 
     end_results = joblib.Parallel(n_jobs=-1)(joblib.delayed(single_sim)(angles[i], speeds[i], vehicle, name, markers, i) for i in range(len(speeds)))
+    print(np.array([a[2] for a in end_results[1:]]) * np.array(speeds[1:]) * 1.466667)
+    drift_map(wind_speeds = speeds[1:], 
+              max_drift=2500, 
+              program = "RocketPy",
+              extra= " | Constant Drift Speed, Apogee Above Launch",
+              drifts = np.array([a[2] for a in end_results[1:]]) * np.array(speeds[1:])* 1.466667)
     end_results.insert(0, labels)
     end_results = [list(row) for row in zip(*end_results)]
     """PROBABLY WANT TO MAKE THIS IT'S OWN FUNCTION AT SOME POINT"""
@@ -121,7 +129,6 @@ def multi_sim(angles, speeds, vehicle, name = None, markers = 0):
 
         # Write each row to the CSV file
         writer.writerows(end_results)
-
     print(f"Data written to {filename}")
 
 
@@ -146,7 +153,7 @@ def single_sim(angle, speed, file_name, name = None, markers = 0, iteration = No
             time_main_deploy = time[vIndex]
             #print("alt:" + str(alt[-1]))
     if markers == 1:
-        ejections = [testFlight.apogee_time, time_main_deploy]
+        ejections = [testFlight.max_speed_time,testFlight.apogee_time, time_main_deploy]
     else:
         ejections = None
     plot_name = param_graph(time, alt, vel, accel, speed, angle, "RocketPy", name, ejections)
@@ -163,6 +170,7 @@ def single_sim(angle, speed, file_name, name = None, markers = 0, iteration = No
     max_mach= max(mach_num)
     max_vel= max(vel)
     max_accel= max(accel)
+    max_accel_motor = testFlight.max_acceleration_power_on * FT_TO_M
     max_ke= 0.5 * vel[-1] ** 2 * vehicle.m_heav / 32.17
     vel_at_main= vel_main_deploy
     under_drogue= time_main_deploy - testFlight.apogee_time
@@ -184,7 +192,8 @@ def single_sim(angle, speed, file_name, name = None, markers = 0, iteration = No
             max_ke, 
             under_drogue, 
             under_main,
-            vel_at_main]
+            vel_at_main,
+            max_accel_motor]
     else:
         end_results = [run_params, 
             final_vel,
@@ -198,5 +207,6 @@ def single_sim(angle, speed, file_name, name = None, markers = 0, iteration = No
             max_ke, 
             under_drogue, 
             under_main,
-            vel_at_main]
+            vel_at_main,
+            max_accel_motor]
         return end_results
