@@ -36,14 +36,41 @@ import matplotlib.pyplot as plt
 
 def main():
     data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/feustel_subscale_flight2.csv")
-    vehicle = "ConfigFiles/feustel_cdr.yaml"
-    angles = [5,5,7.5,7.5,10]
-    speeds = [0,5,10,15,20]
-    airbrakes_multi(vehicle = vehicle, 
-                angles = angles,
-                speeds = speeds, 
-                lookup_csv = 'CSV_files/CFD_lookup.csv', 
-                drag = 'CSV_files/air_brakes_drag.csv')
+    v_file= "ConfigFiles/feustel_vdf.yaml"
+    veh = SLUIRP.data.OpenYAML.readYaml(v_file)
+    drag = "CSV_files/VDF_airbrakes.csv"
+    #SLUIRP.sims.RocketPySim.single_sim(angle=5, speed=0, file_name=veh, name = None, markers = 1, iteration = None)
+    SLUIRP.sims.RocketPySim.multi_sim(angles=[5, 5, 7.5, 7.5, 10], speeds=[0, 5, 10, 15, 20], vehicle=v_file, markers=1)
+    '''
+    air_brakes = veh.add_air_brakes(
+        drag_coefficient_curve=drag,
+        controller_function=SLUIRP.in_dev.airbrakes_system.Airbrakes.VDF_controller,
+        sampling_rate=10,   
+        reference_area=None,
+        clamp=True,
+        initial_observed_variables=[0, 0, 0],
+        override_rocket_drag=True,
+        name="null")   
+    env = SLUIRP.sims.RocketPySim.get_ST_env(4.4704)
+    data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/vdf_flight.csv")
+    data[0] = data[0]+0.2
+    SLUIRP.plotting.external_plots.compare_sim_real(data,env, 8, 10, "VDF", veh)
+    
+    airbrakes_sim(vehicle_file= vehicle,
+                  angle = 5,
+                  windspeed=0,
+                  drag='CSV_files/vdf_airbrakes.csv',
+                  control = "VDF",
+                  lookup_csv="null")
+    '''
+    
+    #angles = [5,5,7.5,7.5,10]
+    #speeds = [0,5,10,15,20]
+    #airbrakes_multi(vehicle = vehicle, 
+    #            angles = angles,
+    #            speeds = speeds, 
+    #            lookup_csv = 'CSV_files/CFD_lookup.csv', 
+    #            drag = 'CSV_files/air_brakes_drag.csv')
     '''
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]

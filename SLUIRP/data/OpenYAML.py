@@ -211,7 +211,7 @@ def readYaml (filename):
             radius = 0.001
         )
     total_area = rocket_data.get("total_area")
-    if total_area:
+    if total_area > 0:
         vehicle.area = total_area
     vehicle.m_heav = m_heav
    

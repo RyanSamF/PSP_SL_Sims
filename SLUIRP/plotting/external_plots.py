@@ -47,7 +47,7 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     lns5 = ax2.plot(time2, vel2, color=(1,0.6,0), label="Velocity (" + program2 + ")",alpha = 0.8)
     lns = lns1+lns2+lns3+lns4+lns5+lns6
     labs = [l.get_label() for l in lns]
-    ax1.legend(lns, labs, loc=1)
+    ax1.legend(lns, labs, loc=4)
     # Makes both graphs have the same sets of axes
     ax1_ylims = ax1.axes.get_ylim()          
     ax1_yratio = ax1_ylims[0] / ax1_ylims[1]  
@@ -59,10 +59,10 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
         ax2.set_ylim(bottom = ax2_ylims[1]*ax1_yratio)
     else:
         ax1.set_ylim(bottom = ax1_ylims[1]*ax2_yratio)
-    plt.suptitle(program1 + " Vs. " + program2 + " Parameters vs. Time",
+    plt.suptitle(program1 + " Vs. " + program2 + " Vertical Motion vs. Time",
                 fontweight = 'bold')
     plot_name = str(ws)+" mph " + str(angle) + " Degrees"
-    plot_name = "Launch Day Parameters"
+    plot_name = "Launch Day Conditions"
     plt.xlim((0, max(time1[-1],time2[-1])))
     plt.title(plot_name)
     plt.savefig('Plots/' + "compare" + program1 + program2 + " Parameters.png", format='png')
@@ -88,10 +88,9 @@ def compare_sim_real(vdf_data, env, aoa, ws, flight_name, vehicle):
     accel = testFlight.az(time) * FT_TO_M
     vel = testFlight.vz(time) * FT_TO_M
     kernel = np.ones(5) / 5
-    vdf_data [1] *= FT_TO_M
+    vdf_data[1] *= FT_TO_M
     vdf_data[2] *= FT_TO_M
     vdf_data[3] *= FT_TO_M
-    vdf_data[3] = np.convolve(vdf_data[3], kernel, mode='same')
 
     compare_graph([time, alt, vel, accel], vdf_data, ws, aoa, "RocketPy", flight_name)
 

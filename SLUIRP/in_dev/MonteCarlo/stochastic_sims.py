@@ -6,7 +6,7 @@ import pandas as pd
 from SLUIRP.sims.RocketPySim import get_ST_env
 import matplotlib.pyplot as plt
 import joblib
-from SLUIRP.in_dev.airbrakes_system.Airbrakes import controller
+from SLUIRP.in_dev.airbrakes_system.Airbrakes import standard_controller
 FT_TO_M = 3.28084
 
 def montecarlo_sim(rocket_filepath, thrust_filepath, drag_filepath, thrust_MOE, drag_MOE, mass_MOE, COG_MOE, wind_dir_max, wind_mean, wind_std, n, airbrakes_drag = None, lookup_csv = None):

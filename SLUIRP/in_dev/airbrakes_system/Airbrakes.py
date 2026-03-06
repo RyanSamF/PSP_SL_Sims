@@ -13,7 +13,26 @@ FT_TO_M = 3.28084
 IN_TO_M = 1 / 39.37
 LBS_TO_KG = 0.4536
 
-def controller(time, sampling_rate, state, state_history, observed_variables, air_brakes):
+
+
+def VDF_controller(time, sampling_rate, state, state_history, observed_variables, air_brakes):
+    if observed_variables[-1][0] == time:
+        return(None)
+    if time < 5.32:
+        return (time, 0)
+    else:
+        new_deployment_level = 1
+    max_change = 0.59 / sampling_rate
+    lower_bound = air_brakes.deployment_level - max_change
+    upper_bound = air_brakes.deployment_level + max_change
+    new_deployment_level = min(max(new_deployment_level, lower_bound), upper_bound)
+    air_brakes.deployment_level = new_deployment_level
+    return (
+        time,
+        air_brakes.deployment_level
+    )
+
+def standard_controller(time, sampling_rate, state, state_history, observed_variables, air_brakes):
     # state = [x, y, z, vx, vy, vz, e0, e1, e2, e3, wx, wy, wz]
     lookup_table = pd.read_csv(air_brakes.name, index_col=0)
     interp_table = RegularGridInterpolator(
@@ -37,13 +56,17 @@ def controller(time, sampling_rate, state, state_history, observed_variables, ai
     air_brakes.deployment_level = new_deployment_level
     return (
         time,
-        air_brakes.deployment_level,
+        air_brakes.deployment_level
     )
 
 
-def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air Brakes", iteration = None):
+def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air Brakes", iteration = None, control = None):
     vehicle = readYaml(vehicle_file)
     end_results = None
+    if control in function_map:
+        controller = function_map[control]
+    else:
+        controller = standard_controller
     env = get_ST_env(windspeed * 0.44704)
     air_brakes = vehicle.add_air_brakes(
         drag_coefficient_curve=drag,
@@ -77,10 +100,10 @@ def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air 
             vel_main_deploy = vel[vIndex]
             time_main_deploy = time[vIndex]
             #print("alt:" + str(alt[-1]))
-    plot_name = param_graph(time, alt, vel, accel, windspeed, angle, "RocketPy", name)
+    plot_name = param_graph(time, alt, vel, accel, windspeed, angle, "RocketPy Airbrakes", name)
     
     #Makes profile graphs for flight, altitude vs drift distance
-    prof_graph(drift, alt, windspeed, angle, "RocketPy", name)
+    prof_graph(drift, alt, windspeed, angle, "RocketPy Airbrakes", name)
 
     #Plots Deployment level vs time
     time_list, deployment_level_list = [], []
@@ -97,10 +120,11 @@ def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air 
     ax1.set_ylabel("Deployment")
     ax1.set_xlabel('Time (s)')
     ax1.set_ylim(0,1)
+    ax1.set_xlim(0,airbrakes_flight.apogee_time)
     lns3 = ax1.plot(time_list, deployment_level_list, color=(1, 0, 0))
     plt.title("Deployment Level by Time "+str(windspeed) + " mph " + str(angle) + " Degrees")
     plt.grid()
-    plt.savefig('Plots/' + "deployment"+ str(windspeed) +"_" + str(windspeed) + ".png", format='png')
+    plt.savefig('Plots/' + "deployment"+ str(windspeed) +"_" + str(angle) + ".png", format='png')
 
 
     final_vel= vel[-1]
@@ -193,3 +217,6 @@ def airbrakes_multi(vehicle, angles, speeds, lookup_csv, drag):
         writer.writerows(end_results)
 
     print(f"Data written to {filename}")
+
+function_map = {'VDF':VDF_controller,
+                'standard':standard_controller}
