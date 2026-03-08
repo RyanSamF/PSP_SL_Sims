@@ -39,8 +39,9 @@ def main():
     v_file= "ConfigFiles/feustel_vdf.yaml"
     veh = SLUIRP.data.OpenYAML.readYaml(v_file)
     drag = "CSV_files/VDF_airbrakes.csv"
-    #SLUIRP.sims.RocketPySim.single_sim(angle=5, speed=0, file_name=veh, name = None, markers = 1, iteration = None)
-    SLUIRP.sims.RocketPySim.multi_sim(angles=[5, 5, 7.5, 7.5, 10], speeds=[0, 5, 10, 15, 20], vehicle=v_file, markers=1)
+    #SLUIRP.sims.RocketPySim.single_sim(angle=7.5, speed=8.7, file_name=v_file, name = None, markers = 1, iteration = None)
+    #SLUIRP.sims.RocketPySim.multi_sim(angles=[7.5, 5, 7.5, 7.5, 10], speeds=[8.7, 5, 10, 15, 20], vehicle=v_file, markers=1)
+    #drift_map([0, 624, 1210, 1784, 2361], [0, 5, 10, 15, 20], 2500, "OpenRocket")
     '''
     air_brakes = veh.add_air_brakes(
         drag_coefficient_curve=drag,
@@ -51,12 +52,18 @@ def main():
         initial_observed_variables=[0, 0, 0],
         override_rocket_drag=True,
         name="null")   
+    
+    
     env = SLUIRP.sims.RocketPySim.get_ST_env(4.4704)
+    
     data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/vdf_flight.csv")
+    param_graph(data[0], data[1], data[2], data[3], 10, 8, "VDF",None, [2.64,17.05,61.49])
+    
     data[0] = data[0]+0.2
     SLUIRP.plotting.external_plots.compare_sim_real(data,env, 8, 10, "VDF", veh)
-    
-    airbrakes_sim(vehicle_file= vehicle,
+    '''
+    '''
+    airbrakes_sim(vehicle_file= v_file,
                   angle = 5,
                   windspeed=0,
                   drag='CSV_files/vdf_airbrakes.csv',
@@ -64,13 +71,17 @@ def main():
                   lookup_csv="null")
     '''
     
-    #angles = [5,5,7.5,7.5,10]
-    #speeds = [0,5,10,15,20]
-    #airbrakes_multi(vehicle = vehicle, 
-    #            angles = angles,
-    #            speeds = speeds, 
-    #            lookup_csv = 'CSV_files/CFD_lookup.csv', 
-    #            drag = 'CSV_files/air_brakes_drag.csv')
+    
+    angles = [5,5,7.5,7.5,10]
+    speeds = [0,5,10,15,20]
+    airbrakes_multi(vehicle = v_file, 
+                angles = angles,
+                speeds = speeds, 
+                lookup_csv = 'VDF', 
+                drag = 'CSV_files/VDF_airbrakes.csv',
+                controller = "VDF"
+                )
+                
     '''
     angles = [5, 5, 7.5, 7.5, 10]
     speeds = [0, 5, 10, 15, 20]
@@ -93,7 +104,7 @@ def main():
                     drag_data="CSV_files/feustel_pdr_drag.csv")
     '''
     #drift_map([569.07,1151.33,1676.40,2258.67], speeds[1:], 2500, "OpenRocket", " | Constant Drift Speed, Apogee Above Launch")
-    #SLUIRP.plotting.external_plots.graph_OR()
+    SLUIRP.plotting.external_plots.graph_OR()
     #vfile = SLUIRP.data.OpenYAML.readYaml("ConfigFiles/feustel_subscale.yaml")
     #SLUIRP.sims.RocketPySim.single_sim(angle=6, speed=0, file_name=vehicle, name = None, markers = 1, iteration = None)
     #SLUIRP.sims.RocketPySim.multi_sim(angles = angles, speeds=speeds, vehicle=vehicle, markers = 1)

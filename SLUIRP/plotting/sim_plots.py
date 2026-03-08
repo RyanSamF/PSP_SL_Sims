@@ -77,7 +77,7 @@ def param_graph(time, alt, vel, accel, ws, angle, program, more = None, ejection
         plt.axvline(x=ejections[1], color='black', linestyle='--', label='Drogue Deployment', alpha = 0.5)
         plt.text(x=ejections[1] + time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85, s='Drogue Deployment',rotation=90, color ='black',va='top')
         plt.axvline(x=ejections[2], color='black', linestyle='--', label='Main Deployment', alpha = 0.5)
-        plt.text(x=ejections[2] + time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85, s='Main Deployment',rotation=90, color='black',va='top')
+        plt.text(x=ejections[2] -3.5* time[-1]*0.01, y=ax2.axes.get_ylim()[1] * 0.85, s='Main Deployment',rotation=90, color='black',va='top')
     
     plt.savefig('Plots/' + plot_name +  program + " Parameters.png", format='png')
     return(plot_name)

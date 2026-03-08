@@ -18,11 +18,11 @@ LBS_TO_KG = 0.4536
 def VDF_controller(time, sampling_rate, state, state_history, observed_variables, air_brakes):
     if observed_variables[-1][0] == time:
         return(None)
-    if time < 5.32:
+    if time < 5.7:
         return (time, 0)
     else:
-        new_deployment_level = 1
-    max_change = 0.59 / sampling_rate
+        new_deployment_level = 0.7
+    max_change = 0.41 / sampling_rate
     lower_bound = air_brakes.deployment_level - max_change
     upper_bound = air_brakes.deployment_level + max_change
     new_deployment_level = min(max(new_deployment_level, lower_bound), upper_bound)
@@ -160,7 +160,7 @@ def airbrakes_sim(vehicle_file, angle, windspeed, lookup_csv, drag, name = "Air 
     return(end_results)
 
 
-def airbrakes_multi(vehicle, angles, speeds, lookup_csv, drag):
+def airbrakes_multi(vehicle, angles, speeds, lookup_csv, drag, controller = None):
     speeds_ms = [x * 0.44704 for x in speeds]
     env_arr = [None] * len(speeds)
     #time =  datetime.datetime(2025, 2, 23, 13, 30, 0, 0, tzinfo=ZoneInfo("America/Indianapolis"))
@@ -203,6 +203,7 @@ def airbrakes_multi(vehicle, angles, speeds, lookup_csv, drag):
                                                                             vehicle_file =vehicle, 
                                                                             lookup_csv = lookup_csv,
                                                                             drag = drag,
+                                                                            control = controller,
                                                                             iteration = i) for i in range(len(speeds)))
     end_results.insert(0, labels)
     end_results = [list(row) for row in zip(*end_results)]
