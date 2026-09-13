@@ -7,7 +7,7 @@ githubfiles:
 
 motor:
   net_mass: 7.8 #mass of motor with propellant in lbs
-  prop_mass: 4.05 #mass of propellant in lbs
+  prop_mass: 4.14 #mass of propellant in lbs
   center_of_dry_mass: 9.5 #distance from nozzle of center of mass of motor without propellant in inches
   dry_inertia: [1.77, 1.77, 0.02] #moment of inertia without propellant in lbs*ft^2   
   chamber_rad: 1.38 #radius of inside of propellant chamber in inches
@@ -21,10 +21,10 @@ rocket:
   booster: 12.34  #mass of booster section in lbs
   radius: 2.575 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
-  mass: 34.3 #dry mass in lbs
+  mass: 36.6 #dry mass in lbs
   inertia: [218.5, 218.5, 1.12] #moment of inertia in lbs*ft^2
   COM: 48.068 #center of mass from nose without motor in inches
-  length: 102 #length of rocket in inches
+  length: 102.3 #length of rocket in inches
   total_area: 0 #total reference area from CFD of rocket in m^2 (optional, 0 if none)
 
 nose_cone:
@@ -48,4 +48,4 @@ parachutes:
   main_cd: 1.6 #coefficient of drag of main parachute 
   main_diameter: 120 #diameter of main parachute in inches
   main_trigger: 800 #trigger height for main parachute in ft
-  delay: 1 #Delay between trigger and deployment in seconds
+  delay: 0 #Delay between trigger and deployment in seconds

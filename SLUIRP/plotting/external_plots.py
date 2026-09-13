@@ -47,7 +47,7 @@ def compare_graph(params1, params2, ws, angle, program1, program2):
     lns5 = ax2.plot(time2, vel2, color=(1,0.6,0), label="Velocity (" + program2 + ")",alpha = 0.8)
     lns = lns1+lns2+lns3+lns4+lns5+lns6
     labs = [l.get_label() for l in lns]
-    ax1.legend(lns, labs, loc=4)
+    ax1.legend(lns, labs, loc=1)
     # Makes both graphs have the same sets of axes
     ax1_ylims = ax1.axes.get_ylim()          
     ax1_yratio = ax1_ylims[0] / ax1_ylims[1]  

@@ -6,8 +6,8 @@ import csv
 
 
 FT_TO_M = 3.28084
-IN_TO_M = 1 / 39.37
-LBS_TO_KG = 0.4536
+IN_TO_M = 0.0254
+LBS_TO_KG = 0.453592
 
 
 
@@ -161,15 +161,16 @@ def readYaml (filename):
         coordinate_system_orientation = "nose_to_tail", #defines position 0 = end of nose
         center_of_mass_without_motor = rocket_data["COM"] * IN_TO_M #Center of mass WITHOUT motor (in -> meters)  
     )
-    vehicle.add_motor(engine, rocket_data["length"] * IN_TO_M) #position of motor in rocket
-
-    #adds nose cone to vehicle
+     #adds nose cone to vehicle
     nose_cone = vehicle.add_nose(
         length = nose_data["length"] * IN_TO_M, #Length of nose cone (in -> meters)
-        kind = nose_data["type"], #Nose type, IF EVER NOT VON KARMAN CHANGE THIS
+        kind = nose_data["type"], #Nose type
         position = 0 #defines nose cone at end of nose cone (nose to tail orientation)
     )
     
+    vehicle.add_motor(engine, rocket_data["length"] * IN_TO_M) #position of motor in rocket
+
+   
     #adds fins to vehicle
     fin_set = vehicle.add_trapezoidal_fins(
         n = fins_data["n"], #number of fins

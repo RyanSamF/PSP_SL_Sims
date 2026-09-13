@@ -33,23 +33,18 @@ import pandas
 from SLUIRP.plotting.sim_plots import param_graph
 import matplotlib.pyplot as plt
 
-
+ 
 def main():
-    data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/feustel_subscale_flight2.csv")
+    data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsville.csv")
     v_file= "ConfigFiles/feustel_vdf.yaml"
     veh = SLUIRP.data.OpenYAML.readYaml(v_file)
+    veh.draw()
     drag = "CSV_files/VDF_airbrakes.csv"
-    
-    angles = [5,5,7.5,7.5,10]
-    speeds = [0,5,10,15,20]
-    airbrakes_multi(vehicle = v_file, 
-                angles = angles,
-                speeds = speeds, 
-                lookup_csv = 'VDF', 
-                drag = 'CSV_files/VDF_airbrakes.csv',
-                controller = "VDF"
-                )
-                
+    angles = [6,5,7.5,7.5,10]
+    speeds = [10, 5,10,15,20]
+    env = SLUIRP.sims.RocketPySim.get_ST_env(4.4704)
+    #SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, v_file)
+    SLUIRP.plotting.external_plots.compare_sim_real(data, env, 10, 10, "Competition Flight", veh)
    
 if __name__ == "__main__":
     main()
