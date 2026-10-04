@@ -36,18 +36,16 @@ import matplotlib.pyplot as plt
  
 def main():
     data = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsville.csv")
-    v_file= "ConfigFiles/feustel_vdf.yaml"
+    v_file= "ConfigFiles/bridges_pdr.yaml"
     veh = SLUIRP.data.OpenYAML.readYaml(v_file)
     veh.draw()
     drag = "CSV_files/VDF_airbrakes.csv"
-    angles = [6,5,7.5,7.5,10]
-    speeds = [10, 5,10,15,20]
+    angles = [5,5,7.5,7.5,10]
+    speeds = [0, 5,10,15,20]
     env = SLUIRP.sims.RocketPySim.get_ST_env(4.4704)
     #SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, v_file)
-    SLUIRP.plotting.external_plots.compare_sim_real(data, env, 10, 10, "Competition Flight", veh)
+    #SLUIRP.plotting.external_plots.compare_sim_real(data, env, 10, 10, "Competition Flight", veh)
+    SLUIRP.sims.RocketPySim.multi_sim(angles, speeds, v_file, markers = 1)
    
 if __name__ == "__main__":
     main()
-    #[h_time,h_alt, h_vel, h_acc, h_temp, h_pres] = SLUIRP.data.OpenCSV.get_standard_data("CSV_files/huntsville_data.csv")
-    #h_dens = SLUIRP.in_dev.GetCD.get_density(h_temp, h_pres)
-    #SLUIRP.in_dev.GetCD.CD_estimate(h_time,h_alt, h_vel, h_acc, h_dens, 0.01344,12.06556)
