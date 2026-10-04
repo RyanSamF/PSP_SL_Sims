@@ -2,8 +2,8 @@
 ---
 #Files for Motor
 githubfiles:
-  thrusturl: 'CSV_files/L1482_thrust.csv' #url for thrust
-  dragurl: 'CSV_files/8lb_drag.csv' #url for drag
+  thrusturl: 'CSV_files/L930_thrust.csv' #url for thrust
+  dragurl: 'CSV_files/bridges_PDR_drag.csv' #url for drag
 
 motor:
   net_mass: 7.8 #mass of motor with propellant in lbs
@@ -19,12 +19,13 @@ rocket:
   uppersec: 9.56 #mass of upper section in lbs
   midsec: 9.54  #mass of middle section in lbs
   booster: 12.34  #mass of booster section in lbs
-  radius: 2.575 #radius of rocket in in
+  radius: 2.01 #radius of rocket in in
   h_section: 12.34 #heaviest section of rocket in lbs
   mass: 26 #mass in lbs
-  inertia: [215.27  , 215.27, 1.19] #moment of inertia in lbs*ft^2
-  COM: 49.17 #center of mass from nose without motor in inches
-  length: 98 #length of rocket in inches
+  inertia: [216.97  , 216.97, 0.52] #moment of inertia in lbs*ft^2
+  COM: 53.194 #center of mass from nose without motor in inches
+  length: 108 #length of rocket in inches
+  total_area: 0 #total reference area from CFD of rocket in m^2 (optional, 0 if none)
 
 nose_cone:
   length: 10 #length of nose cone in inches
@@ -35,8 +36,8 @@ fins:
   n: 3 #number of fins
   root_chord: 4 #root chord in inches
   tip_chord: 4 #length of tip chord in inches
-  offSet: 91 #position of top of fins in inches
-  span: 3.75 #span of fin in inches
+  offset: 1 #distance from bottom of fins to bottom of rocket
+  span: 3.6 #span of fin in inches
   sweep: 0 #sweep length of fins in inches  
 
 parachutes:
@@ -47,3 +48,4 @@ parachutes:
   main_cd: 2.2 #coefficient of drag of main parachute 
   main_diameter: 84 #diameter of main parachute in inches
   main_trigger: 656 #trigger height for main parachute in ft
+  delay: 1 #Delay between trigger and deployment in seconds
