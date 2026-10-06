@@ -90,7 +90,7 @@ def single_stochastic(rocket_filepath, thrust_arrays, drag_arrays, thrust_MOE, d
     thrust_change = random.randint(int(1000*(1-thrust_MOE)), int(1000*(1+thrust_MOE)))/1000
     drag_change = random.randint(int(1000*(1-drag_MOE)), int(1000*(1+drag_MOE)))/1000
     mass_change = random.randint(int(1000*(1-mass_MOE)), int(1000*(1+mass_MOE)))/1000
-    COG_change = random.randint(int(1000*(1-mass_MOE)), int(1000*(1+COG_MOE)))/1000
+    COG_change = random.randint(int(1000*(1-COG_MOE)), int(1000*(1+COG_MOE)))/1000
 
 
     scaled_drag = drag_arrays
@@ -159,10 +159,3 @@ def single_stochastic_airbrakes(rocket_filepath, lookup_csv, airbrakes_drag, thr
             time_overshoot = False)
     print(i, end='\r')
     return(flight.apogee * FT_TO_M)
-
-
-
-
-        
-
-
